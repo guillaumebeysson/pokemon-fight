@@ -1,0 +1,209 @@
+/* style.css */
+
+/* Reset des marges et du padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    display: flex;
+    /* Ajoute Flexbox */
+    flex-direction: column;
+    /* Organise les éléments en colonne */
+    justify-content: center;
+    /* Centre verticalement */
+    align-items: center;
+    /* Centre horizontalement */
+    min-height: 90vh;
+    /* Prend toute la hauteur de la fenêtre */
+    text-align: center;
+    /* Centre le texte */
+}
+
+
+h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.battlefield {
+    display: flex;
+    flex-direction: row;
+    /* Adapté pour mobile */
+    justify-content: center;
+
+    margin: 30px 0;
+}
+
+.pokemon {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.pokemon img {
+    width: 120px;
+    /* Taille adaptée pour mobile */
+    height: auto;
+}
+
+.health-bar {
+    width: 200px;
+    /* Largeur ajustée pour s'adapter aux petits écrans */
+    height: 25px;
+    background-color: #e0e0e0;
+    border-radius: 12px;
+    margin: 10px auto;
+    position: relative;
+}
+
+.health-bar div {
+    height: 100%;
+    background-color: #8cc776;
+    border-radius: 12px;
+    color: white;
+    line-height: 25px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.vs {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.attacks {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.reload button,
+.attacks button {
+    display: inline-block;
+    margin: 10px 5px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #76c7c0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.reload button:hover,
+.attacks button:hover {
+    background-color: #5fa7a4;
+}
+
+.reload button:active,
+.attacks button:active {
+    transform: scale(0.95);
+}
+
+/* Animation pour agrandir le Pokémon attaquant */
+.pokemon img {
+    transition: transform 0.3s ease-in-out;
+    /* Animation fluide */
+}
+
+.pokemon.attacking img {
+    transform: scale(2);
+    /* Agrandit le Pokémon à 150% */
+}
+
+/* Animation pour faire trembler le Pokémon attaqué */
+.pokemon.damaged img {
+    animation: shake 1s ease-in-out;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    10% {
+        transform: translateX(-5px);
+    }
+
+    20% {
+        transform: translateX(5px);
+    }
+
+    30% {
+        transform: translateX(-5px);
+    }
+
+    40% {
+        transform: translateX(5px);
+    }
+
+    50% {
+        transform: translateX(-5px);
+    }
+
+    60% {
+        transform: translateX(5px);
+    }
+
+    70% {
+        transform: translateX(-5px);
+    }
+
+    80% {
+        transform: translateX(5px);
+    }
+
+    90% {
+        transform: translateX(-5px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
+/* Styles spécifiques pour les petits écrans */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .battlefield {
+        flex-direction: column;
+    }
+
+    .pokemon img {
+        width: 100px;
+        /* Images plus petites pour mobile */
+    }
+
+    .health-bar {
+        width: 200px;
+        /* Barre de vie élargie sur mobile */
+    }
+
+    .attacks button {
+        /* Boutons prenant presque toute la largeur */
+        margin: 10px;
+        font-size: 0.9rem;
+    }
+
+    .vs {
+        font-size: 1.2rem;
+    }
+}

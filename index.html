@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combat Pokémon Simplifié</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- <h1>Combat Pokémon</h1> -->
+        <div class="battlefield">
+            <!-- Pokémon Joueur -->
+            <div class="pokemon" id="player">
+                <!-- <h2>Ton Pokémon</h2> -->
+                <img id="player-img" src="https://via.placeholder.com/150" alt="Pokémon Joueur">
+                <div class="health-bar">
+                    <div id="player-health" style="width: 100%;">100 PV</div>
+                </div>
+                <div id="player-attacks" class="attacks"></div>
+            </div>
+
+            <div class="vs">VS</div>
+
+            <!-- Pokémon Adversaire -->
+            <div class="pokemon" id="opponent">
+                <!-- <h2>Adversaire</h2> -->
+                <img id="opponent-img" src="https://via.placeholder.com/150" alt="Pokémon Adversaire">
+                <div class="health-bar">
+                    <div id="opponent-health" style="width: 100%;">100 PV</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js" defer></script>
+</body>
+
+</html>
