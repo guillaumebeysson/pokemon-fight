@@ -121,7 +121,7 @@ h1 {
 }
 
 .pokemon.attacking img {
-    transform: scale(2);
+    transform: scale(1.5);
     /* Agrandit le Pokémon à 150% */
 }
 

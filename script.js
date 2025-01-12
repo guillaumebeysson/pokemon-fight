@@ -4,7 +4,8 @@ let pokemonData = { player: null, opponent: null };
 
 // Fonction pour obtenir un ID aléatoire
 function getRandomPokemonId() {
-    return Math.floor(Math.random() * 1010) + 1; // Génère un ID entre 1 et 1010
+    // return Math.floor(Math.random() * 1010) + 1; // Génère un ID entre 1 et 1010
+    return Math.floor(Math.random() * 151) + 1; // Génère un ID entre 1 et 1010
 }
 
 // Fonction pour récupérer les données d'un Pokémon via l'API PokéAPI
