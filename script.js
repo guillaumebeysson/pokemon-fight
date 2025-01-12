@@ -81,8 +81,18 @@ function updateHealth(pokemon, newHealth) {
         elapsedTime += interval;
         const progress = Math.min(elapsedTime / animationDuration, 1);
         const interpolatedHealth = currentHealth - progress * healthDifference;
+        const interpolatedHealthValue = Math.max(0, interpolatedHealth);
         healthBar.style.width = `${Math.max(0, interpolatedHealth)}%`;
         healthBar.innerText = `${Math.round(interpolatedHealth)} PV`;
+
+        // Change la couleur en fonction des PV
+        if (interpolatedHealthValue > 50) {
+            healthBar.style.backgroundColor = "#8cc776"; // Vert
+        } else if (interpolatedHealthValue > 25) {
+            healthBar.style.backgroundColor = "#ffa500"; // Orange
+        } else {
+            healthBar.style.backgroundColor = "#ff4500"; // Rouge
+        }
 
         if (progress >= 1) {
             clearInterval(intervalId);
