@@ -127,8 +127,8 @@ function initializeGame() {
     const playerHealthBar = document.getElementById("player-health");
     const opponentHealthBar = document.getElementById("opponent-health");
 
-    playerHealthBar.innerText = `${pokemonData.player.health} / ${pokemonData.player.maxHealth} PV`;
-    opponentHealthBar.innerText = `${pokemonData.opponent.health} / ${pokemonData.opponent.maxHealth} PV`;
+    playerHealthBar.innerText = `${pokemonData.player.health} PV`;
+    opponentHealthBar.innerText = `${pokemonData.opponent.health} PV`;
 
     const playerAttacks = document.getElementById("player-attacks");
     playerAttacks.innerHTML = "";
@@ -159,7 +159,7 @@ function updateHealth(pokemon, newHealth) {
 
             const healthPercentage = (interpolatedHealth / maxHealth) * 100;
             healthBar.style.width = `${Math.max(0, healthPercentage)}%`;
-            healthBar.innerText = `${Math.max(0, interpolatedHealth)} / ${maxHealth} PV`;
+            healthBar.innerText = `${Math.max(0, interpolatedHealth)} PV`;
 
             // Change la couleur en fonction des PV
             if (healthPercentage > 50) {
@@ -207,10 +207,7 @@ function displayWinner(winner) {
 // Calcul des dégâts en fonction du power de l'attaque
 function calculateDamage(power) {
     const randomFactor = Math.random() * 0.2 + 0.9;
-    console.log("Puissance de l'attaque:", power);
-    console.log("Random factor:", randomFactor);
     console.log("Dégâts infligés:", Math.round(power * randomFactor));
-
     return Math.round(power * randomFactor);
 }
 
