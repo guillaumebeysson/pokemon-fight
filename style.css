@@ -41,9 +41,7 @@ h1 {
 .battlefield {
     display: flex;
     flex-direction: row;
-    /* Adapté pour mobile */
     justify-content: center;
-
     margin: 30px 0;
 }
 
@@ -81,8 +79,14 @@ h1 {
 .vs {
     font-size: 1.5rem;
     font-weight: bold;
-    margin: 20px 0;
+    margin: 0 40px 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
 }
+
+
 
 .attacks {
     display: grid;
@@ -129,6 +133,32 @@ h1 {
 .pokemon.damaged img {
     animation: shake 1s ease-in-out;
 }
+
+.hidden {
+    display: none;
+}
+
+/* Loader CSS */
+.loader {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #76c7c0;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 
 @keyframes shake {
     0% {
@@ -205,5 +235,7 @@ h1 {
 
     .vs {
         font-size: 1.2rem;
+        margin: 0 0 20px 0;
+        height: 50px;
     }
 }

@@ -4,36 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Combat Pokémon Simplifié</title>
+    <title>Combat Pokémon</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="container">
-        <div class="battlefield">
-            <!-- Pokémon Joueur -->
-            <div class="pokemon" id="player">
-                <h2 id="player-name"></h2>
-                <img id="player-img" src="https://via.placeholder.com/150" alt="Pokémon Joueur">
-                <div class="health-bar">
-                    <div id="player-health" style="width: 100%;">100 PV</div>
+        <!-- Loader -->
+        <div id="loader" class="loader" style="display: none;"></div>
+
+        <!-- Contenu principal -->
+        <div id="main-content" class="hidden">
+            <div class="battlefield">
+                <!-- Pokémon Joueur -->
+                <div class="pokemon" id="player">
+                    <h2 id="player-name"></h2>
+                    <img id="player-img" src="https://via.placeholder.com/150" alt="Pokémon Joueur">
+                    <div class="health-bar">
+                        <div id="player-health" style="width: 100%;">100 PV</div>
+                    </div>
+                    <div id="player-attacks" class="attacks"></div>
                 </div>
-                <div id="player-attacks" class="attacks"></div>
-            </div>
 
-            <div class="vs">VS</div>
+                <div class="vs">VS</div>
 
-            <!-- Pokémon Adversaire -->
-            <div class="pokemon" id="opponent">
-                <h2 id="opponent-name"></h2>
-                <img id="opponent-img" src="https://via.placeholder.com/150" alt="Pokémon Adversaire">
-                <div class="health-bar">
-                    <div id="opponent-health" style="width: 100%;">100 PV</div>
+                <!-- Pokémon Adversaire -->
+                <div class="pokemon" id="opponent">
+                    <h2 id="opponent-name"></h2>
+                    <img id="opponent-img" src="https://via.placeholder.com/150" alt="Pokémon Adversaire">
+                    <div class="health-bar">
+                        <div id="opponent-health" style="width: 100%;">100 PV</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="script.js" defer></script>
+    <script src="script.js"></script>
 </body>
+
 
 </html>

@@ -2,13 +2,59 @@
 
 let pokemonData = { player: null, opponent: null };
 
-// Fonction pour obtenir un ID aléatoire
-function getRandomPokemonId() {
-    // return Math.floor(Math.random() * 1010) + 1; // Génère un ID entre 1 et 1010
-    return Math.floor(Math.random() * 151) + 1; // Génère un ID entre 1 et 1010
+// Affiche uniquement le loader
+function showLoader() {
+    document.getElementById("loader").style.display = "block";
+    document.getElementById("main-content").classList.add("hidden");
 }
 
-// Fonction pour récupérer les données d'un Pokémon via l'API PokéAPI
+// Affiche uniquement le contenu principal
+function showMainContent() {
+    document.getElementById("loader").style.display = "none";
+    document.getElementById("main-content").classList.remove("hidden");
+}
+
+// Fonction pour obtenir un ID aléatoire
+function getRandomPokemonId() {
+    // return Math.floor(Math.random() * 1024) + 1;
+    return Math.floor(Math.random() * 150) + 1;
+}
+
+// Fonction pour récupérer les détails des attaques via l'API
+async function getAttackDetails(attackUrl) {
+    try {
+        const response = await fetch(attackUrl);
+        const data = await response.json();
+
+        const frenchName = data.names.find(name => name.language.name === "fr");
+        return {
+            name: frenchName ? frenchName.name : data.name,
+            power: data.power / 2 || 0, // Puissance de l'attaque
+            type: data.type.name // Type de l'attaque
+        };
+    } catch (error) {
+        console.error("Erreur lors de la récupération des détails de l'attaque :", error);
+        return null;
+    }
+}
+
+// Fonction pour récupérer le nom en français d'un Pokémon
+async function getPokemonNameInFrench(id) {
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`);
+        if (!response.ok) {
+            throw new Error("Erreur lors de la récupération du nom en français !");
+        }
+        const data = await response.json();
+        const frenchName = data.names.find(name => name.language.name === "fr");
+        return frenchName ? frenchName.name : null;
+    } catch (error) {
+        console.error("Erreur lors de la récupération du nom en français :", error);
+        return null;
+    }
+}
+
+// Fonction pour récupérer les données d'un Pokémon via PokéAPI
 async function getPokemonData(id) {
     try {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
@@ -17,119 +63,162 @@ async function getPokemonData(id) {
         }
         const data = await response.json();
 
-        // Récupère les 4 premières attaques disponibles
-        const attacks = data.moves.slice(0, 4).map(move => move.move.name);
+        // Récupère les 4 premières attaques et leurs détails
+        const attacks = await Promise.all(
+            data.moves.slice(0, 4).map(move => getAttackDetails(move.move.url))
+        );
+
+        // Récupère les PV de base
+        const baseHP = data.stats.find(stat => stat.stat.name === "hp")?.base_stat || 100;
 
         return {
-            name: data.name.charAt(0).toUpperCase() + data.name.slice(1), // Nom avec majuscule
-            img: data.sprites.front_default, // Image du Pokémon
-            attacks: attacks, // Attaques
-            health: 100, // Santé initiale
+            img: data.sprites.front_default,
+            attacks: attacks.filter(attack => attack),
+            health: baseHP,
+            maxHealth: baseHP
         };
     } catch (error) {
         console.error("Impossible de récupérer les données d'un Pokémon :", error);
-        alert("Erreur lors de la récupération des données Pokémon.");
         return null;
     }
 }
 
-// Fonction pour charger les Pokémon du joueur et de l'adversaire
+// Charge les données des Pokémon
 async function loadGameData() {
+    showLoader();
+
     const playerPokemonId = getRandomPokemonId();
     const opponentPokemonId = getRandomPokemonId();
 
-    const playerPokemon = await getPokemonData(playerPokemonId);
-    const opponentPokemon = await getPokemonData(opponentPokemonId);
+    try {
+        const [playerPokemon, opponentPokemon] = await Promise.all([
+            getPokemonData(playerPokemonId),
+            getPokemonData(opponentPokemonId)
+        ]);
 
-    pokemonData.player = playerPokemon;
-    pokemonData.opponent = opponentPokemon;
+        const [playerName, opponentName] = await Promise.all([
+            getPokemonNameInFrench(playerPokemonId),
+            getPokemonNameInFrench(opponentPokemonId)
+        ]);
 
-    initializeGame();
+        if (!playerPokemon || !opponentPokemon || !playerName || !opponentName) {
+            alert("Erreur lors du chargement des données Pokémon.");
+            return;
+        }
+
+        pokemonData.player = { ...playerPokemon, name: playerName };
+        pokemonData.opponent = { ...opponentPokemon, name: opponentName };
+
+        initializeGame();
+    } catch (error) {
+        console.error("Erreur lors du chargement des Pokémon :", error);
+    } finally {
+        showMainContent();
+    }
 }
 
 // Initialise le jeu avec les données des Pokémon
 function initializeGame() {
-    // Mise à jour des images et noms
     document.getElementById("player-img").src = pokemonData.player.img;
     document.getElementById("opponent-img").src = pokemonData.opponent.img;
     document.querySelector("#player h2").innerText = pokemonData.player.name;
     document.querySelector("#opponent h2").innerText = pokemonData.opponent.name;
 
-    // Ajout des attaques du joueur
+    const playerHealthBar = document.getElementById("player-health");
+    const opponentHealthBar = document.getElementById("opponent-health");
+
+    playerHealthBar.innerText = `${pokemonData.player.health} / ${pokemonData.player.maxHealth} PV`;
+    opponentHealthBar.innerText = `${pokemonData.opponent.health} / ${pokemonData.opponent.maxHealth} PV`;
+
     const playerAttacks = document.getElementById("player-attacks");
-    playerAttacks.innerHTML = ""; // Vide les anciens boutons
+    playerAttacks.innerHTML = "";
     pokemonData.player.attacks.forEach((attack) => {
         const button = document.createElement("button");
-        button.innerText = attack;
+        button.innerText = attack.name;
         button.onclick = () => playerAttack(attack);
         playerAttacks.appendChild(button);
     });
 }
 
-// Fonction pour mettre à jour la barre de vie
+// Met à jour la barre de vie avec animation
 function updateHealth(pokemon, newHealth) {
-    const healthBar = document.getElementById(`${pokemon}-health`);
-    const currentHealth = parseInt(healthBar.style.width);
-    const healthDifference = currentHealth - newHealth;
+    return new Promise(resolve => {
+        const healthBar = document.getElementById(`${pokemon}-health`);
+        const maxHealth = pokemonData[pokemon].maxHealth;
+        const currentHealth = pokemonData[pokemon].health;
+        const healthDifference = currentHealth - newHealth;
+        const animationDuration = 1000;
+        const interval = 10;
 
-    let elapsedTime = 0;
-    const animationDuration = 1000; // Durée totale de l'animation (1s)
-    const interval = 10;
+        let elapsedTime = 0;
 
-    // Anime la diminution de la barre de vie
-    const intervalId = setInterval(() => {
-        elapsedTime += interval;
-        const progress = Math.min(elapsedTime / animationDuration, 1);
-        const interpolatedHealth = currentHealth - progress * healthDifference;
-        const interpolatedHealthValue = Math.max(0, interpolatedHealth);
-        healthBar.style.width = `${Math.max(0, interpolatedHealth)}%`;
-        healthBar.innerText = `${Math.round(interpolatedHealth)} PV`;
+        const intervalId = setInterval(() => {
+            elapsedTime += interval;
+            const progress = Math.min(elapsedTime / animationDuration, 1);
+            const interpolatedHealth = currentHealth - Math.round(healthDifference * progress);
 
-        // Change la couleur en fonction des PV
-        if (interpolatedHealthValue > 50) {
-            healthBar.style.backgroundColor = "#8cc776"; // Vert
-        } else if (interpolatedHealthValue > 25) {
-            healthBar.style.backgroundColor = "#ffa500"; // Orange
-        } else {
-            healthBar.style.backgroundColor = "#ff4500"; // Rouge
-        }
+            const healthPercentage = (interpolatedHealth / maxHealth) * 100;
+            healthBar.style.width = `${Math.max(0, healthPercentage)}%`;
+            healthBar.innerText = `${Math.max(0, interpolatedHealth)} / ${maxHealth} PV`;
 
-        if (progress >= 1) {
-            clearInterval(intervalId);
-
-            // Si la santé atteint 0, afficher le message de fin
-            if (newHealth <= 0) {
-                healthBar.innerText = "KO!";
-                const winner = pokemon === "player" ? "opponent" : "player";
-                const winnerData = pokemon === "player" ? pokemonData.opponent : pokemonData.player;
-
-                document.querySelector(".container").innerHTML = `
-                    <h1>${winner === "player" ? "Ton Pokémon" : "L'Adversaire"} a gagné !</h1>
-                    <img src="${winnerData.img}" alt="Gagnant" style="width: 200px; height: auto;">
-                    <div class="reload">
-                        <button onclick="window.location.reload()">Rejouer</button>
-                    </div>
-                `;
+            // Change la couleur en fonction des PV
+            if (healthPercentage > 50) {
+                healthBar.style.backgroundColor = "#8cc776"; // Vert
+            } else if (healthPercentage > 25) {
+                healthBar.style.backgroundColor = "#ffa500"; // Orange
+            } else {
+                healthBar.style.backgroundColor = "#ff4500"; // Rouge
             }
-        }
-    }, interval);
-}
 
-// Active ou désactive les boutons d'attaque
-function toggleAttackButtons(disabled) {
-    const buttons = document.querySelectorAll("#player-attacks button");
-    buttons.forEach((button) => {
-        button.disabled = disabled;
-        button.style.opacity = disabled ? "0.5" : "1";
-        button.style.cursor = disabled ? "not-allowed" : "pointer";
+            if (progress >= 1) {
+                clearInterval(intervalId);
+                pokemonData[pokemon].health = newHealth;
+
+                if (newHealth <= 0) {
+                    resolve("KO");
+                } else {
+                    resolve("CONTINUE");
+                }
+            }
+        }, interval);
     });
 }
 
-// Attaque du joueur
-function playerAttack(attack) {
-    toggleAttackButtons(true); // Désactive les boutons d'attaque
+// Vérifie et affiche le gagnant
+function checkGameOver(pokemon) {
+    if (pokemonData[pokemon].health <= 0) {
+        displayWinner(pokemon === "player" ? "opponent" : "player");
+        return true;
+    }
+    return false;
+}
 
-    const damage = calculateDamage();
+// Affiche le gagnant
+function displayWinner(winner) {
+    const winnerData = pokemonData[winner];
+    document.querySelector(".container").innerHTML = `
+        <h1>${winner === "player" ? "Ton Pokémon" : "L'Adversaire"} a gagné !</h1>
+        <img src="${winnerData.img}" alt="Gagnant" style="width: 200px;">
+        <div class="reload">
+            <button onclick="window.location.reload()">Rejouer</button>
+        </div>`;
+}
+
+// Calcul des dégâts en fonction du power de l'attaque
+function calculateDamage(power) {
+    const randomFactor = Math.random() * 0.2 + 0.9;
+    console.log("Puissance de l'attaque:", power);
+    console.log("Random factor:", randomFactor);
+    console.log("Dégâts infligés:", Math.round(power * randomFactor));
+
+    return Math.round(power * randomFactor);
+}
+
+// Attaque du joueur
+async function playerAttack(attack) {
+    toggleAttackButtons(true);
+
+    const damage = calculateDamage(attack.power);
 
     const playerElement = document.getElementById("player");
     playerElement.classList.add("attacking");
@@ -142,17 +231,22 @@ function playerAttack(attack) {
         opponentElement.classList.remove("damaged");
     }, 1000);
 
-    pokemonData.opponent.health = Math.max(0, pokemonData.opponent.health - damage);
-    updateHealth("opponent", pokemonData.opponent.health);
+    const result = await updateHealth("opponent", Math.max(0, pokemonData.opponent.health - damage));
 
-    if (pokemonData.opponent.health > 0) {
-        setTimeout(opponentAttack, 3000);
+    if (result === "KO") {
+        checkGameOver("opponent");
+    } else {
+        setTimeout(opponentAttack, 1000);
     }
 }
 
 // Attaque de l'adversaire
-function opponentAttack() {
-    const damage = calculateDamage();
+async function opponentAttack() {
+    const randomAttack = pokemonData.opponent.attacks[
+        Math.floor(Math.random() * pokemonData.opponent.attacks.length)
+    ];
+
+    const damage = calculateDamage(randomAttack.power);
 
     const opponentElement = document.getElementById("opponent");
     opponentElement.classList.add("attacking");
@@ -165,15 +259,23 @@ function opponentAttack() {
         playerElement.classList.remove("damaged");
     }, 1000);
 
-    pokemonData.player.health = Math.max(0, pokemonData.player.health - damage);
-    updateHealth("player", pokemonData.player.health);
+    const result = await updateHealth("player", Math.max(0, pokemonData.player.health - damage));
 
-    setTimeout(() => toggleAttackButtons(false), 3000);
+    if (result === "KO") {
+        checkGameOver("player");
+    } else {
+        toggleAttackButtons(false);
+    }
 }
 
-// Fonction pour infliger des dégâts aléatoires
-function calculateDamage() {
-    return Math.floor(Math.random() * 20) + 10; // Entre 10 et 30
+// Active ou désactive les boutons d'attaque
+function toggleAttackButtons(disabled) {
+    const buttons = document.querySelectorAll("#player-attacks button");
+    buttons.forEach(button => {
+        button.disabled = disabled;
+        button.style.opacity = disabled ? "0.5" : "1";
+        button.style.cursor = disabled ? "not-allowed" : "pointer";
+    });
 }
 
 // Charge le jeu
