@@ -219,8 +219,10 @@ function checkGameOver(pokemon) {
 // Affiche le gagnant
 function displayWinner(winner) {
     const winnerData = pokemonData[winner];
+    const playerPokemon = pokemonData.player;
+    const opponentPokemon = pokemonData.opponent;
     document.querySelector(".container").innerHTML = `
-        <h1>${winner === "player" ? "Ton Pokémon" : "L'Adversaire"} a gagné !</h1>
+        <h1>${winner === "player" ? playerPokemon.name : opponentPokemon.name} a gagné !</h1>
         <img src="${winnerData.img}" alt="Gagnant" style="width: 200px;">
         <div class="reload">
             <button onclick="window.location.reload()">Rejouer</button>
