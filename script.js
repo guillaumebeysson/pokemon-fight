@@ -52,7 +52,7 @@ async function getAttackDetails(attackUrl) {
         const frenchName = data.names.find(name => name.language.name === "fr");
         return {
             name: frenchName ? frenchName.name : data.name,
-            power: data.power / 2 || 0, // Puissance de l'attaque
+            power: data.power / 4 || 0, // Puissance de l'attaque
             type: data.type.name // Type de l'attaque
         };
     } catch (error) {
