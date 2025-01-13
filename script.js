@@ -14,10 +14,33 @@ function showMainContent() {
     document.getElementById("main-content").classList.remove("hidden");
 }
 
-// Fonction pour obtenir un ID aléatoire
+// Récupère les paramètres de l'URL
+const urlParams = new URLSearchParams(window.location.search);
+const selectedGeneration = urlParams.get("generation") || "all";
+
+// Fonction pour obtenir les limites des générations
+function getGenerationLimits(gen) {
+    const limits = {
+        all: [1, 905], // Toutes les générations
+        1: [1, 151],  // Première génération
+        2: [152, 251], // Deuxième génération
+        3: [252, 386], // Troisième génération
+        4: [387, 493], // Quatrième génération
+        5: [494, 649], // Cinquième génération
+        6: [650, 721], // Sixième génération
+        7: [722, 809], // Septième génération
+        8: [810, 905], // Huitième génération
+        9: [906, 1025], // Huitième génération
+    };
+    return limits[gen];
+}
+
+// Utilise les limites pour ajuster les IDs
+const [minId, maxId] = getGenerationLimits(selectedGeneration);
+
+// Modifie la fonction d'ID aléatoire pour tenir compte des limites
 function getRandomPokemonId() {
-    // return Math.floor(Math.random() * 1024) + 1;
-    return Math.floor(Math.random() * 150) + 1;
+    return Math.floor(Math.random() * (maxId - minId + 1)) + minId;
 }
 
 // Fonction pour récupérer les détails des attaques via l'API
