@@ -221,6 +221,8 @@ function displayWinner(winner) {
     const winnerData = pokemonData[winner];
     const playerPokemon = pokemonData.player;
     const opponentPokemon = pokemonData.opponent;
+    // Lance les confettis
+    launchConfetti();
     document.querySelector(".container").innerHTML = `
         <h1>${winner === "player" ? playerPokemon.name : opponentPokemon.name} a gagné !</h1>
         <img src="${winnerData.img}" alt="Gagnant" style="width: 200px;">
@@ -330,6 +332,32 @@ function toggleAttackButtons(disabled) {
         button.style.cursor = disabled ? "not-allowed" : "pointer";
     });
 }
+
+// Fonction pour afficher les confettis
+function launchConfetti() {
+    const duration = 2 * 1000; // Durée totale des confettis (2 secondes)
+    const end = Date.now() + duration;
+
+    // Lancer des confettis à intervalles réguliers
+    const interval = setInterval(() => {
+        if (Date.now() > end) {
+            clearInterval(interval);
+            return;
+        }
+
+        confetti({
+            particleCount: 100,
+            startVelocity: 30,
+            spread: 360,
+            origin: {
+                x: Math.random(),
+                // L'origine Y permet d'ajuster la hauteur de lancement des confettis
+                y: Math.random() - 0.2,
+            },
+        });
+    }, 200); // Lance des confettis toutes les 250ms
+}
+
 
 // Charge le jeu
 loadGameData();
