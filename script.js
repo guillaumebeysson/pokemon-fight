@@ -236,6 +236,31 @@ function calculateDamage(power) {
     return Math.round(power * randomFactor);
 }
 
+// Fonction pour afficher les dégâts infligés
+function displayDamage(pokemon, damage) {
+    const healthBar = document.querySelector(`#${pokemon} .pokemon-img`); // Récupère la barre de vie
+    const damageElement = document.createElement("div");
+
+    // Style de l'élément des dégâts
+    damageElement.innerText = `-${damage}`;
+    damageElement.style.position = "absolute";
+    damageElement.style.top = "50px"; // Décalage vers le haut
+    damageElement.style.right = "30px";
+    damageElement.style.color = "red";
+    damageElement.style.fontWeight = "bold";
+    damageElement.style.fontSize = "1.2rem";
+    damageElement.style.animation = "fade-out 1.5s forwards"; // Animation CSS
+
+    // Insère l'élément après la barre de vie
+    healthBar.insertAdjacentElement("afterend", damageElement);
+
+    // Retire l'élément après l'animation
+    setTimeout(() => {
+        damageElement.remove();
+    }, 1500);
+}
+
+
 // Attaque du joueur
 async function playerAttack(attack) {
     toggleAttackButtons(true);
@@ -247,6 +272,9 @@ async function playerAttack(attack) {
 
     const opponentElement = document.getElementById("opponent");
     opponentElement.classList.add("damaged");
+
+    // Affiche les dégâts sur l'adversaire
+    displayDamage("opponent", damage);
 
     setTimeout(() => {
         playerElement.classList.remove("attacking");
@@ -275,6 +303,9 @@ async function opponentAttack() {
 
     const playerElement = document.getElementById("player");
     playerElement.classList.add("damaged");
+
+    displayDamage("player", damage);
+
 
     setTimeout(() => {
         opponentElement.classList.remove("attacking");

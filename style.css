@@ -142,6 +142,11 @@ h1 {
     display: none;
 }
 
+.relative-container {
+    position: relative;
+}
+
+
 /* Loader CSS */
 .loader {
     border: 8px solid #f3f3f3;
@@ -151,6 +156,18 @@ h1 {
     height: 50px;
     animation: spin 1s linear infinite;
     margin: 0 auto;
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
 }
 
 @keyframes spin {
