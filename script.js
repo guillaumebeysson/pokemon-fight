@@ -142,6 +142,12 @@ async function loadGameData() {
 
 // Initialise le jeu avec les données des Pokémon
 function initializeGame() {
+    initializeScores();
+    updateScoreDisplay(
+        parseInt(localStorage.getItem("currentWinStreak"), 10),
+        parseInt(localStorage.getItem("maxWinStreak"), 10)
+    );
+
     document.getElementById("player-img").src = pokemonData.player.img;
     document.getElementById("opponent-img").src = pokemonData.opponent.img;
     document.querySelector("#player h2").innerText = pokemonData.player.name;
@@ -221,8 +227,17 @@ function displayWinner(winner) {
     const winnerData = pokemonData[winner];
     const playerPokemon = pokemonData.player;
     const opponentPokemon = pokemonData.opponent;
-    // Lance les confettis
-    launchConfetti();
+
+    const winningPokemonName = winner === "player" ? playerPokemon.name : opponentPokemon.name;
+
+    // Mets à jour les scores
+    updateScores(winner === "player");
+
+    // Lance les confettis si le joueur gagne
+    if (winner === "player") {
+        launchConfetti();
+    }
+
     document.querySelector(".container").innerHTML = `
         <h1>${winner === "player" ? playerPokemon.name : opponentPokemon.name} a gagné !</h1>
         <img src="${winnerData.img}" alt="Gagnant" style="width: 200px;">
@@ -357,6 +372,45 @@ function launchConfetti() {
         });
     }, 200); // Lance des confettis toutes les 250ms
 }
+
+// Initialise ou récupère les scores dans le Local Storage
+function initializeScores() {
+    if (!localStorage.getItem("currentWinStreak")) {
+        localStorage.setItem("currentWinStreak", "0");
+    }
+    if (!localStorage.getItem("maxWinStreak")) {
+        localStorage.setItem("maxWinStreak", "0");
+    }
+}
+
+// Met à jour les scores
+function updateScores(won) {
+    let currentWinStreak = parseInt(localStorage.getItem("currentWinStreak"), 10);
+    let maxWinStreak = parseInt(localStorage.getItem("maxWinStreak"), 10);
+
+    if (won) {
+        currentWinStreak++;
+        if (currentWinStreak > maxWinStreak) {
+            maxWinStreak = currentWinStreak;
+        }
+    } else {
+        currentWinStreak = 0; // Réinitialise la série en cas de défaite
+    }
+
+    // Mets à jour le Local Storage
+    localStorage.setItem("currentWinStreak", currentWinStreak.toString());
+    localStorage.setItem("maxWinStreak", maxWinStreak.toString());
+
+    // Mets à jour l'affichage
+    updateScoreDisplay(currentWinStreak, maxWinStreak);
+}
+
+// Affiche les scores sur l'interface
+function updateScoreDisplay(current, max) {
+    document.getElementById("current-streak").innerText = `Victoires consécutives : ${current}`;
+    document.getElementById("max-streak").innerText = `Record : ${max}`;
+}
+
 
 
 // Charge le jeu

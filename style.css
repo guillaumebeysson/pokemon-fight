@@ -146,7 +146,6 @@ h1 {
     position: relative;
 }
 
-
 /* Loader CSS */
 .loader {
     border: 8px solid #f3f3f3;
@@ -157,6 +156,20 @@ h1 {
     animation: spin 1s linear infinite;
     margin: 0 auto;
 }
+
+.score-board {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: right;
+}
+
 
 @keyframes fade-out {
     0% {
