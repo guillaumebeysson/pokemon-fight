@@ -42,6 +42,14 @@ h1 {
     margin-bottom: 20px;
 }
 
+#arrow-back {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
 .battlefield {
     display: flex;
     flex-direction: row;
@@ -336,9 +344,13 @@ h1 {
         font-size: 0.9rem;
     }
 
+    .pokemon {
+        margin-bottom: 10px;
+    }
+
     .vs {
         font-size: 1.2rem;
-        margin: 0 0 20px 0;
+        margin: 0 0 10px 0;
         height: 50px;
     }
 }
