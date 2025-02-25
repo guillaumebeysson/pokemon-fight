@@ -269,6 +269,7 @@ function displayDamage(pokemon, damage) {
     damageElement.style.fontWeight = "bold";
     damageElement.style.fontSize = "1.2rem";
     damageElement.style.animation = "fade-out 1.5s forwards"; // Animation CSS
+    damageElement.style.zIndex = "999";
 
     // Insère l'élément après la barre de vie
     healthBar.insertAdjacentElement("afterend", damageElement);
@@ -458,7 +459,6 @@ function displayHealing(pokemon, healAmount) {
     }, 1500);
 }
 
-// Fonction pour transformer Métamorph en son adversaire
 // Fonction pour transformer Métamorph en son adversaire avec animation
 function transformDitto() {
     const ditto = pokemonData.player;

@@ -178,11 +178,6 @@ h1 {
     text-align: right;
 }
 
-/* image pokemon */
-.pokemon img {
-    z-index: 999;
-}
-
 /* Applique l'animation à Métamorph lorsqu'il se transforme */
 .pokemon.transforming img {
     animation: morphing-animation 1.5s ease-in-out;
