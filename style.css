@@ -321,8 +321,16 @@ h1 {
         font-size: 1.5rem;
     }
 
+    .score-board {
+        position: absolute;
+        right: 5px;
+        top: 12px;
+        width: 228px;
+    }
+
     .battlefield {
         flex-direction: column;
+        margin: 70px 0;
     }
 
     .pokemon-player.attacking img {
