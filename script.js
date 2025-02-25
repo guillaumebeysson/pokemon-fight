@@ -95,7 +95,7 @@ async function getPokemonData(id) {
         const baseHP = data.stats.find(stat => stat.stat.name === "hp")?.base_stat || 100;
 
         return {
-            img: data.sprites.front_default,
+            img: data.sprites.other["official-artwork"].front_default,
             attacks: attacks.filter(attack => attack),
             health: baseHP,
             maxHealth: baseHP
@@ -110,7 +110,9 @@ async function getPokemonData(id) {
 async function loadGameData() {
     showLoader();
 
-    const playerPokemonId = getRandomPokemonId();
+    //const playerPokemonId = getRandomPokemonId();
+    //const playerPokemonId = 868; // Cremy pour tester l'attaque soin
+    const playerPokemonId = 132; // pour tester métamorph
     const opponentPokemonId = getRandomPokemonId();
 
     try {
@@ -240,7 +242,7 @@ function displayWinner(winner) {
 
     document.querySelector(".container").innerHTML = `
         <h1>${winner === "player" ? playerPokemon.name : opponentPokemon.name} a gagné !</h1>
-        <img src="${winnerData.img}" alt="Gagnant" style="width: 200px;">
+        <img src="${winnerData.img}" class="winner" alt="Gagnant" style="width: 200px;">
         <div class="reload">
             <button onclick="window.location.reload()">Rejouer</button>
         </div>`;
@@ -281,6 +283,27 @@ function displayDamage(pokemon, damage) {
 // Attaque du joueur
 async function playerAttack(attack) {
     toggleAttackButtons(true);
+
+    if (attack.name.toLowerCase() === "soin") {
+        // Restaure 50 PV sans dépasser les PV max
+        const healedHealth = Math.min(pokemonData.player.health + 50, pokemonData.player.maxHealth);
+
+        // Affiche l'animation de soin
+        displayHealing("player", healedHealth - pokemonData.player.health);
+
+        await updateHealth("player", healedHealth);
+
+        // Passe à l'attaque de l'adversaire après le soin
+        setTimeout(opponentAttack, 1000);
+        return;
+    }
+
+    // Vérifie si l'attaque est Morphing et transforme Métamorph
+    if (attack.name.toLowerCase() === "morphing") {
+        transformDitto();
+        setTimeout(() => toggleAttackButtons(false), 1000);
+        return;
+    }
 
     const damage = calculateDamage(attack.power);
 
@@ -410,6 +433,80 @@ function updateScoreDisplay(current, max) {
     document.getElementById("current-streak").innerText = `Victoires consécutives : ${current}`;
     document.getElementById("max-streak").innerText = `Record : ${max}`;
 }
+
+// Fonction pour afficher l'effet de soin
+function displayHealing(pokemon, healAmount) {
+    const healthBar = document.querySelector(`#${pokemon} .pokemon-img`);
+    const healElement = document.createElement("div");
+
+    // Style du texte de soin
+    healElement.innerText = `+${healAmount}`;
+    healElement.style.position = "absolute";
+    healElement.style.top = "50px";
+    healElement.style.right = "30px";
+    healElement.style.color = "green"; // Vert pour le soin
+    healElement.style.fontWeight = "bold";
+    healElement.style.fontSize = "1.2rem";
+    healElement.style.animation = "fade-out 1.5s forwards";
+
+    // Insère l'élément
+    healthBar.insertAdjacentElement("afterend", healElement);
+
+    // Retire après l'animation
+    setTimeout(() => {
+        healElement.remove();
+    }, 1500);
+}
+
+// Fonction pour transformer Métamorph en son adversaire
+// Fonction pour transformer Métamorph en son adversaire avec animation
+function transformDitto() {
+    const ditto = pokemonData.player;
+    const opponent = pokemonData.opponent;
+
+    // Vérifie si le Pokémon du joueur est Métamorph (ID 132)
+    if (ditto.name.toLowerCase() === "métamorph") {
+        const playerElement = document.getElementById("player");
+        const playerImage = document.getElementById("player-img");
+
+        // Ajoute la classe pour l'animation
+        playerElement.classList.add("transforming");
+
+        // Attends la fin de l'animation avant d'appliquer la transformation
+        setTimeout(() => {
+            ditto.img = opponent.img;
+            ditto.health = opponent.health * 2; // Double les PV de l'adversaire
+            ditto.maxHealth = opponent.maxHealth * 2;
+            ditto.attacks = [...opponent.attacks]; // Copie les attaques de l'adversaire
+            ditto.name = `Métamorph (${opponent.name})`; // Met à jour le nom affiché
+
+            // Mise à jour de l'affichage
+            playerImage.src = ditto.img;
+            document.querySelector("#player h2").innerText = ditto.name;
+            updateHealth("player", ditto.health);
+
+            // Met à jour les attaques affichées
+            const playerAttacks = document.getElementById("player-attacks");
+            playerAttacks.innerHTML = "";
+            ditto.attacks.forEach((attack) => {
+                const button = document.createElement("button");
+                button.innerText = attack.name;
+                button.onclick = () => playerAttack(attack);
+                playerAttacks.appendChild(button);
+            });
+
+            // Retire la classe après l'animation
+            setTimeout(() => {
+                playerElement.classList.remove("transforming");
+            }, 500);
+
+            console.log("Métamorph s'est transformé en", opponent.name);
+        }, 1500); // Temps de l'animation avant transformation
+    }
+}
+
+
+
 
 
 

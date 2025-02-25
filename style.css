@@ -55,9 +55,9 @@ h1 {
 }
 
 .pokemon img {
-    width: 120px;
-    /* Taille adaptée pour mobile */
-    height: auto;
+    min-height: 150px;
+    max-height: 151px;
+    width: auto;
 }
 
 .health-bar {
@@ -124,18 +124,28 @@ h1 {
 
 /* Animation pour agrandir le Pokémon attaquant */
 .pokemon img {
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease;
     /* Animation fluide */
 }
 
-.pokemon.attacking img {
-    transform: scale(1.5);
-    /* Agrandit le Pokémon à 150% */
+.pokemon-player.attacking img {
+    transform: scale(1.5) translate(150px, 0);
+    position: relative;
+    z-index: 10;
+}
+
+.pokemon-opponent.attacking img {
+    transform: scale(1.5) translate(-150px, 0);
 }
 
 /* Animation pour faire trembler le Pokémon attaqué */
 .pokemon.damaged img {
     animation: shake 1s ease-in-out;
+}
+
+/* Animation du gagnant */
+.winner {
+    animation: winner-celebration 2s ease-in-out;
 }
 
 .hidden {
@@ -168,6 +178,69 @@ h1 {
     text-align: right;
 }
 
+/* image pokemon */
+.pokemon img {
+    z-index: 999;
+}
+
+/* Applique l'animation à Métamorph lorsqu'il se transforme */
+.pokemon.transforming img {
+    animation: morphing-animation 1.5s ease-in-out;
+}
+
+@keyframes morphing-animation {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    25% {
+        transform: scale(1.3);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    75% {
+        transform: scale(1.3);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes winner-celebration {
+    0% {
+        transform: translateY(0) scale(1);
+        filter: brightness(1);
+    }
+
+    25% {
+        transform: translateY(-10px) scale(1.1);
+        filter: brightness(1.2);
+    }
+
+    50% {
+        transform: translateY(0) scale(1);
+        filter: brightness(1);
+    }
+
+    75% {
+        transform: translateY(-5px) scale(1.05);
+        filter: brightness(1.3);
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+        filter: brightness(1);
+    }
+}
 
 @keyframes fade-out {
     0% {
@@ -249,9 +322,12 @@ h1 {
         flex-direction: column;
     }
 
-    .pokemon img {
-        width: 100px;
-        /* Images plus petites pour mobile */
+    .pokemon-player.attacking img {
+        transform: scale(1.5) translate(0, 200px);
+    }
+
+    .pokemon-opponent.attacking img {
+        transform: scale(1.5) translate(0, -200px);
     }
 
     .health-bar {
