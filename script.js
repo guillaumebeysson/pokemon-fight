@@ -110,9 +110,9 @@ async function getPokemonData(id) {
 async function loadGameData() {
     showLoader();
 
-    //const playerPokemonId = getRandomPokemonId();
+    const playerPokemonId = getRandomPokemonId();
     //const playerPokemonId = 868; // Cremy pour tester l'attaque soin
-    const playerPokemonId = 132; // pour tester métamorph
+    //const playerPokemonId = 132; // pour tester métamorph
     const opponentPokemonId = getRandomPokemonId();
 
     try {
