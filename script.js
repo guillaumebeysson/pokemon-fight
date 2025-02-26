@@ -2,6 +2,29 @@
 
 let pokemonData = { player: null, opponent: null };
 
+// 📌 Ajout d'un typeChart pour gérer les faiblesses/résistances
+const typeChart = {
+    "normal": { "rock": 0.5, "ghost": 0, "steel": 0.5 },
+    "fire": { "water": 0.5, "grass": 2, "ice": 2, "bug": 2, "steel": 2, "fire": 0.5, "rock": 0.5, "dragon": 0.5 },
+    "water": { "fire": 2, "water": 0.5, "grass": 0.5, "ground": 2, "rock": 2, "dragon": 0.5 },
+    "grass": { "fire": 0.5, "water": 2, "grass": 0.5, "poison": 0.5, "ground": 2, "flying": 0.5, "bug": 0.5, "rock": 2, "dragon": 0.5, "steel": 0.5 },
+    "electric": { "water": 2, "ground": 0, "flying": 2, "electric": 0.5, "dragon": 0.5 },
+    "ice": { "fire": 0.5, "water": 0.5, "ice": 0.5, "fighting": 2, "rock": 2, "steel": 2 },
+    "fighting": { "normal": 2, "ice": 2, "rock": 2, "ghost": 0, "poison": 0.5, "flying": 0.5, "psychic": 0.5, "bug": 0.5, "dark": 2, "steel": 2, "fairy": 0.5 },
+    "poison": { "grass": 2, "ground": 0.5, "rock": 0.5, "ghost": 0.5, "steel": 0, "fairy": 2 },
+    "ground": { "fire": 2, "electric": 2, "grass": 0.5, "poison": 2, "flying": 0, "rock": 2, "steel": 2 },
+    "flying": { "electric": 0.5, "fighting": 2, "ground": 1, "grass": 2, "bug": 2, "rock": 0.5, "steel": 0.5 },
+    "psychic": { "fighting": 2, "poison": 2, "psychic": 0.5, "dark": 0, "steel": 0.5 },
+    "bug": { "fire": 0.5, "fighting": 0.5, "poison": 0.5, "flying": 0.5, "psychic": 2, "ghost": 0.5, "dark": 2, "steel": 0.5, "fairy": 0.5 },
+    "rock": { "normal": 0.5, "fire": 2, "water": 0.5, "grass": 0.5, "fighting": 0.5, "ground": 0.5, "flying": 2, "bug": 2, "steel": 0.5 },
+    "ghost": { "normal": 0, "psychic": 2, "ghost": 2, "dark": 0.5 },
+    "dragon": { "dragon": 2, "steel": 0.5, "fairy": 0 },
+    "dark": { "fighting": 0.5, "psychic": 2, "ghost": 2, "dark": 0.5, "fairy": 0.5 },
+    "steel": { "normal": 0.5, "fire": 0.5, "water": 0.5, "electric": 0.5, "ice": 2, "fighting": 0.5, "poison": 0, "ground": 0.5, "flying": 0.5, "psychic": 0.5, "bug": 0.5, "rock": 2, "dragon": 0.5, "steel": 0.5, "fairy": 2 },
+    "fairy": { "fighting": 2, "poison": 0.5, "ghost": 1, "steel": 0.5, "dragon": 2, "dark": 2 }
+};
+
+
 // Affiche uniquement le loader
 function showLoader() {
     document.getElementById("loader").style.display = "block";
@@ -13,6 +36,17 @@ function showMainContent() {
     document.getElementById("loader").style.display = "none";
     document.getElementById("main-content").classList.remove("hidden");
 }
+
+// Fonction pour récupérer le type principal d'un Pokémon et charger l'icône
+function setPokemonTypeIcon(pokemon, type) {
+    const typeIconElement = document.getElementById(`${pokemon}-type-icon`);
+    const typeContainer = document.getElementById(`${pokemon}-type-container`);
+    typeContainer.className = "type-container";
+    typeContainer.classList.add(type);
+    typeIconElement.src = `assets/icons/${type}.svg`; // Chemin du fichier SVG
+    typeIconElement.alt = `Type ${type}`;
+}
+
 
 // Récupère les paramètres de l'URL
 const urlParams = new URLSearchParams(window.location.search);
@@ -61,6 +95,11 @@ async function getAttackDetails(attackUrl) {
     }
 }
 
+// Fonction pour calculer l'effet du type de l'attaque contre le type du défenseur
+function calculateTypeEffectiveness(attackType, defenderType) {
+    return typeChart[attackType]?.[defenderType] || 1; // x1 par défaut
+}
+
 // Fonction pour récupérer le nom en français d'un Pokémon
 async function getPokemonNameInFrench(id) {
     try {
@@ -86,19 +125,21 @@ async function getPokemonData(id) {
         }
         const data = await response.json();
 
-        // Récupère les 4 premières attaques et leurs détails
         const attacks = await Promise.all(
             data.moves.slice(0, 4).map(move => getAttackDetails(move.move.url))
         );
 
-        // Récupère les PV de base
         const baseHP = data.stats.find(stat => stat.stat.name === "hp")?.base_stat || 100;
+        const baseDefense = data.stats.find(stat => stat.stat.name === "defense")?.base_stat || 50;
+        const type = data.types[0]?.type.name || "normal"; // Prend le premier type du Pokémon
 
         return {
             img: data.sprites.other["official-artwork"].front_default,
             attacks: attacks.filter(attack => attack),
             health: baseHP,
-            maxHealth: baseHP
+            maxHealth: baseHP,
+            defense: baseDefense,
+            type: type
         };
     } catch (error) {
         console.error("Impossible de récupérer les données d'un Pokémon :", error);
@@ -154,6 +195,9 @@ function initializeGame() {
     document.getElementById("opponent-img").src = pokemonData.opponent.img;
     document.querySelector("#player h2").innerText = pokemonData.player.name;
     document.querySelector("#opponent h2").innerText = pokemonData.opponent.name;
+
+    setPokemonTypeIcon("player", pokemonData.player.type);
+    setPokemonTypeIcon("opponent", pokemonData.opponent.type);
 
     const playerHealthBar = document.getElementById("player-health");
     const opponentHealthBar = document.getElementById("opponent-health");
@@ -249,10 +293,16 @@ function displayWinner(winner) {
 }
 
 // Calcul des dégâts en fonction du power de l'attaque
-function calculateDamage(power) {
-    const randomFactor = Math.random() * 0.2 + 0.9;
-    console.log("Dégâts infligés:", Math.round(power * randomFactor));
-    return Math.round(power * randomFactor);
+function calculateDamage(attacker, defender, attack) {
+    const randomFactor = Math.random() * 0.2 + 0.9; // Variation entre 90% et 110%
+    const effectiveness = calculateTypeEffectiveness(attack.type, defender.type);
+    const baseDamage = Math.round(attack.power * randomFactor * effectiveness);
+
+    console.log(
+        `${attack.name} inflige ${baseDamage} dégâts (${effectiveness}x) sur ${defender.type}`
+    );
+
+    return baseDamage;
 }
 
 // Fonction pour afficher les dégâts infligés
@@ -267,7 +317,7 @@ function displayDamage(pokemon, damage) {
     damageElement.style.right = "30px";
     damageElement.style.color = "red";
     damageElement.style.fontWeight = "bold";
-    damageElement.style.fontSize = "1.2rem";
+    damageElement.style.fontSize = "1.6rem";
     damageElement.style.animation = "fade-out 1.5s forwards"; // Animation CSS
     damageElement.style.zIndex = "999";
 
@@ -285,7 +335,8 @@ function displayDamage(pokemon, damage) {
 async function playerAttack(attack) {
     toggleAttackButtons(true);
 
-    if (attack.name.toLowerCase() === "soin") {
+    // 🟢 Gestion de l'attaque "Soin"
+    if (attack.name.toLowerCase() === "soin" || attack.name.toLowerCase() === "repos") {
         // Restaure 50 PV sans dépasser les PV max
         const healedHealth = Math.min(pokemonData.player.health + 50, pokemonData.player.maxHealth);
 
@@ -299,15 +350,17 @@ async function playerAttack(attack) {
         return;
     }
 
-    // Vérifie si l'attaque est Morphing et transforme Métamorph
+    // 🌀 Vérifie si l'attaque est "Morphing" et transforme Métamorph
     if (attack.name.toLowerCase() === "morphing") {
         transformDitto();
         setTimeout(() => toggleAttackButtons(false), 1000);
         return;
     }
 
-    const damage = calculateDamage(attack.power);
+    // 💥 Calcul des dégâts avec prise en compte des résistances et de la défense
+    const damage = calculateDamage(pokemonData.player, pokemonData.opponent, attack);
 
+    // 📢 Affichage de l'animation d'attaque
     const playerElement = document.getElementById("player");
     playerElement.classList.add("attacking");
 
@@ -317,13 +370,16 @@ async function playerAttack(attack) {
     // Affiche les dégâts sur l'adversaire
     displayDamage("opponent", damage);
 
+    // ⏳ Supprime les classes d'animation après un délai
     setTimeout(() => {
         playerElement.classList.remove("attacking");
         opponentElement.classList.remove("damaged");
     }, 1000);
 
+    // ⚔️ Mise à jour des PV de l'adversaire
     const result = await updateHealth("opponent", Math.max(0, pokemonData.opponent.health - damage));
 
+    // 🏆 Vérifie si l'adversaire est KO
     if (result === "KO") {
         checkGameOver("opponent");
     } else {
@@ -331,36 +387,49 @@ async function playerAttack(attack) {
     }
 }
 
+
 // Attaque de l'adversaire
 async function opponentAttack() {
+    // 🎯 Sélection aléatoire d'une attaque parmi toutes les attaques (même celles avec 0 de dégâts)
     const randomAttack = pokemonData.opponent.attacks[
         Math.floor(Math.random() * pokemonData.opponent.attacks.length)
     ];
 
-    const damage = calculateDamage(randomAttack.power);
+    console.log(`${pokemonData.opponent.name} utilise ${randomAttack.name} !`);
 
+    // 💥 Calcul des dégâts (même si l'attaque a 0 de puissance)
+    const damage = calculateDamage(pokemonData.opponent, pokemonData.player, randomAttack);
+
+    console.log(`${randomAttack.name} inflige ${damage} dégâts à ${pokemonData.player.name}`);
+
+    // 📢 Animation d'attaque
     const opponentElement = document.getElementById("opponent");
     opponentElement.classList.add("attacking");
 
     const playerElement = document.getElementById("player");
     playerElement.classList.add("damaged");
 
+    // Affiche les dégâts sur le joueur (même s'ils sont 0)
     displayDamage("player", damage);
 
-
+    // ⏳ Retire les animations après un délai
     setTimeout(() => {
         opponentElement.classList.remove("attacking");
         playerElement.classList.remove("damaged");
     }, 1000);
 
+    // ⚔️ Mise à jour des PV du joueur
     const result = await updateHealth("player", Math.max(0, pokemonData.player.health - damage));
 
+    // 🏆 Vérifie si le joueur est KO
     if (result === "KO") {
         checkGameOver("player");
     } else {
         toggleAttackButtons(false);
     }
 }
+
+
 
 // Active ou désactive les boutons d'attaque
 function toggleAttackButtons(disabled) {

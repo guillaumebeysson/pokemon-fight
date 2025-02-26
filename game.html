@@ -23,7 +23,12 @@
             <div class="battlefield">
                 <!-- Pokémon Joueur -->
                 <div class="pokemon relative-container pokemon-player" id="player">
-                    <h2 id="player-name"></h2>
+                    <div id="player-name-container" class="nameAndType">
+                        <h2 id="player-name"></h2>
+                        <div id="player-type-container" class="type-container">
+                            <img id="player-type-icon" class="type-icon" src="" alt="Type du Pokémon">
+                        </div>
+                    </div>
                     <img id="player-img" class="pokemon-img" src="https://via.placeholder.com/150" alt="Pokémon Joueur">
                     <div class="health-bar">
                         <div id="player-health" style="width: 100%;">100 PV</div>
@@ -35,7 +40,12 @@
 
                 <!-- Pokémon Adversaire -->
                 <div class="pokemon relative-container pokemon-opponent" id="opponent">
-                    <h2 id="opponent-name"></h2>
+                    <div id="opponent-name-container" class="nameAndType">
+                        <h2 id="opponent-name"></h2>
+                        <div id="opponent-type-container" class="type-container">
+                            <img id="opponent-type-icon" class="type-icon" src="" alt="Type du Pokémon">
+                        </div>
+                    </div>
                     <img id="opponent-img" class="pokemon-img" src="https://via.placeholder.com/150"
                         alt="Pokémon Adversaire">
                     <div class="health-bar">
