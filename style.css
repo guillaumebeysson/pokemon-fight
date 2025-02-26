@@ -444,6 +444,10 @@ h1 {
         font-size: 1.5rem;
     }
 
+    .vs {
+        display: none;
+    }
+
     .score-board {
         position: absolute;
         right: 5px;
