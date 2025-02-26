@@ -184,6 +184,9 @@ h1 {
     font-size: 1rem;
     font-weight: bold;
     text-align: right;
+    position: absolute;
+    right: 15px;
+    top: 15px;
 }
 
 /* Applique l'animation à Métamorph lorsqu'il se transforme */
