@@ -108,7 +108,7 @@ h1 {
 .reload button,
 .attacks button {
     display: inline-block;
-    margin: 10px 5px;
+    margin: 5px 5px;
     padding: 10px 10px;
     font-size: 1rem;
     font-weight: bold;
@@ -453,6 +453,8 @@ h1 {
         right: 5px;
         top: 12px;
         width: 228px;
+        box-shadow: none;
+        background-color: rgba(0, 0, 0, 0);
     }
 
     .battlefield {
@@ -466,6 +468,10 @@ h1 {
 
     .pokemon-opponent.attacking>img {
         transform: scale(1.5) translate(0, -200px);
+    }
+
+    .pokemon-opponent {
+        margin-top: 20px;
     }
 
     .health-bar {
