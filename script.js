@@ -126,7 +126,8 @@ async function getPokemonData(id) {
         const data = await response.json();
 
         const attacks = await Promise.all(
-            data.moves.slice(0, 4).map(move => getAttackDetails(move.move.url))
+            //data.moves.slice(0, 4).map(move => getAttackDetails(move.move.url))
+            data.moves.slice(0, 6).map(move => getAttackDetails(move.move.url))
         );
 
         const baseHP = data.stats.find(stat => stat.stat.name === "hp")?.base_stat || 100;
