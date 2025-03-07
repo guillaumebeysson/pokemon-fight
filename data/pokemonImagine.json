@@ -12,5 +12,19 @@
             { "name": "Frappe Glaciale", "power": 55, "type": "ice" },
             { "name": "Soin", "power": 0, "type": "normal" }
         ]
+    },
+    {
+        "name": "Forglass",
+        "type": "dragon",
+        "hp": 210,
+        "img": "assets/pokemonImagine/forglass.png",
+        "attacks": [
+            { "name": "Poing Glace", "power": 40, "type": "ice" },
+            { "name": "Glaciation", "power": 10, "type": "ice" },
+            { "name": "Laser Glace", "power": 75, "type": "ice" },
+            { "name": "Onde Mystique", "power": 40, "type": "psychic" },
+            { "name": "Frappe Glaciale", "power": 55, "type": "ice" },
+            { "name": "Soin", "power": 0, "type": "normal" }
+        ]
     }
 ]
