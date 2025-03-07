@@ -450,16 +450,17 @@ h1 {
 
     .score-board {
         position: absolute;
-        right: 5px;
-        top: 12px;
+        right: 3px;
+        top: 5px;
         width: 228px;
+        padding: 0;
         box-shadow: none;
         background-color: rgba(0, 0, 0, 0);
     }
 
     .battlefield {
         flex-direction: column;
-        margin: 70px 0;
+        margin: 30px 0;
     }
 
     .pokemon-player.attacking>img {
@@ -471,7 +472,7 @@ h1 {
     }
 
     .pokemon-opponent {
-        margin-top: 20px;
+        margin-top: 10px;
     }
 
     .health-bar {
