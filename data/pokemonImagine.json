@@ -26,5 +26,19 @@
             { "name": "Frappe Glaciale", "power": 55, "type": "ice" },
             { "name": "Soin", "power": 0, "type": "normal" }
         ]
+    },
+    {
+        "name": "Torofeu",
+        "type": "fire",
+        "hp": 170,
+        "img": "assets/pokemonImagine/torofeu.png",
+        "attacks": [
+            { "name": "Déflagration", "power": 0, "type": "fire" },
+            { "name": "Flammèche", "power": 20, "type": "fire" },
+            { "name": "Surchauffe", "power": 10, "type": "fire" },
+            { "name": "Charge", "power": 40, "type": "normal" },
+            { "name": "Pied Brûleur", "power": 50, "type": "fire" },
+            { "name": "Écras’Face", "power": 20, "type": "normal" }
+        ]
     }
 ]
