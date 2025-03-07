@@ -10,7 +10,7 @@
             { "name": "Lance-Éclair", "power": 55, "type": "electric" },
             { "name": "Onde Mystique", "power": 40, "type": "psychic" },
             { "name": "Frappe Glaciale", "power": 55, "type": "ice" },
-            { "name": "Queue de Feu", "power": 50, "type": "fire" }
+            { "name": "Soin", "power": 0, "type": "normal" }
         ]
     }
 ]

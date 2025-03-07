@@ -576,8 +576,8 @@ function updateScores(won) {
 
 // Affiche les scores sur l'interface
 function updateScoreDisplay(current, max) {
-    document.getElementById("current-streak").innerText = `Victoires consécutives : ${current}`;
-    document.getElementById("max-streak").innerText = `Record : ${max}`;
+    document.getElementById("current-streak").innerText = `:${current}`;
+    document.getElementById("max-streak").innerText = `:${max}`;
 }
 
 // Fonction pour afficher l'effet de soin
