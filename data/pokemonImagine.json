@@ -2,7 +2,7 @@
     {
         "name": "Glassa",
         "type": "dragon",
-        "hp": 220,
+        "hp": 110,
         "img": "assets/pokemonImagine/glassa.png",
         "attacks": [
             { "name": "Souffle Ardent", "power": 60, "type": "fire" },
