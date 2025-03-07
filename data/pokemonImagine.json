@@ -40,5 +40,173 @@
             { "name": "Pied Brûleur", "power": 50, "type": "fire" },
             { "name": "Écras’Face", "power": 20, "type": "normal" }
         ]
+    },
+    {
+        "name": "Combatox",
+        "type": "fighting",
+        "hp": 110,
+        "img": "assets/pokemonImagine/combatox.png",
+        "attacks": [
+            { "name": "Coup Fulgurant", "power": 50, "type": "fighting" },
+            { "name": "Double Pied", "power": 30, "type": "fighting" },
+            { "name": "Dynamo-Poing", "power": 60, "type": "fighting" },
+            { "name": "Charge", "power": 40, "type": "normal" },
+            { "name": "Éclate-Roc", "power": 40, "type": "fighting" },
+            { "name": "Frappe Atlas", "power": 80, "type": "fighting" }
+        ]
+    },
+    {
+        "name": "Plantizard",
+        "type": "grass",
+        "hp": 90,
+        "img": "assets/pokemonImagine/plantizard.png",
+        "attacks": [
+            { "name": "Lance-Soleil", "power": 60, "type": "grass" },
+            { "name": "Gliss’Herbe", "power": 30, "type": "grass" },
+            { "name": "Désherbaffe", "power": 20, "type": "grass" },
+            { "name": "Soin", "power": 0, "type": "normal" },
+            { "name": "Balle Graine", "power": 25, "type": "grass" },
+            { "name": "Séisme", "power": 50, "type": "normal" }
+        ]
+    },
+    {
+        "name": "Ziflamme",
+        "type": "fire",
+        "hp": 50,
+        "img": "assets/pokemonImagine/zyflamme.png",
+        "attacks": [
+            { "name": "Flammèche", "power": 20, "type": "fire" },
+            { "name": "Souffle Ardent", "power": 60, "type": "fire" },
+            { "name": "Surchauffe", "power": 10, "type": "fire" },
+            { "name": "Soin", "power": 0, "type": "normal" },
+            { "name": "Lance-Flammes", "power": 65, "type": "fire" },
+            { "name": "Charge", "power": 40, "type": "normal" }
+        ]
+    },
+    {
+        "name": "Toxilith",
+        "type": "poison",
+        "hp": 140,
+        "img": "assets/pokemonImagine/toxilith.png",
+        "attacks": [
+            { "name": "Choc Venin", "power": 20, "type": "poison" },
+            { "name": "Dard-Venin", "power": 15, "type": "poison" },
+            { "name": "Détricanon", "power": 70, "type": "poison" },
+            { "name": "Soin", "power": 0, "type": "normal" },
+            { "name": "Multitoxik", "power": 45, "type": "poison" },
+            { "name": "Purédpois", "power": 10, "type": "normal" }
+        ]
+    },
+    {
+        "name": "Psylis",
+        "type": "psychic",
+        "hp": 140,
+        "img": "assets/pokemonImagine/psylis.png",
+        "attacks": [
+            { "name": "Soin", "power": 0, "type": "normal" },
+            { "name": "Dévorêve", "power": 75, "type": "psychic" },
+            { "name": "Double Laser", "power": 30, "type": "psychic" },
+            { "name": "Frappe Psy", "power": 35, "type": "psychic" },
+            { "name": "Mur Lumière", "power": 5, "type": "psychic" },
+            { "name": "Coup Bas", "power": 50, "type": "dark" }
+        ]
+    },
+    {
+        "name": "Georok",
+        "type": "rock",
+        "hp": 140,
+        "img": "assets/pokemonImagine/Georok.png",
+        "attacks": [
+            { "name": "Laser Météore", "power": 60, "type": "rock" },
+            { "name": "Roulade", "power": 30, "type": "rock" },
+            { "name": "Tomberoche", "power": 50, "type": "rock" },
+            { "name": "Lame de Roc", "power": 35, "type": "rock" },
+            { "name": "Fracass’Tête", "power": 55, "type": "rock" },
+            { "name": "Requiem", "power": 30, "type": "normal" }
+        ]
+    },
+    {
+        "name": "Aquyss",
+        "type": "water",
+        "hp": 80,
+        "img": "assets/pokemonImagine/Aquyss.png",
+        "attacks": [
+            { "name": "Surf", "power": 30, "type": "water" },
+            { "name": "Tranch’Aqua", "power": 50, "type": "water" },
+            { "name": "Vibraqua", "power": 25, "type": "water" },
+            { "name": "Aquatacle", "power": 35, "type": "water" },
+            { "name": "Repos", "power": 0, "type": "normal" },
+            { "name": "Cascade", "power": 45, "type": "water" }
+        ]
+    },
+    {
+        "name": "Zapnyx",
+        "type": "electric",
+        "hp": 110,
+        "img": "assets/pokemonImagine/Zapnyx.png",
+        "attacks": [
+            { "name": "Électacle", "power": 30, "type": "electric" },
+            { "name": "Crocs Éclair", "power": 50, "type": "electric" },
+            { "name": "Éclair", "power": 25, "type": "electric" },
+            { "name": "Élecanon", "power": 35, "type": "electric" },
+            { "name": "Repos", "power": 0, "type": "normal" },
+            { "name": "Fatal-Foudre", "power": 75, "type": "electric" }
+        ]
+    },
+    {
+        "name": "Aeroquak",
+        "type": "flying",
+        "hp": 90,
+        "img": "assets/pokemonImagine/Aeroquak.png",
+        "attacks": [
+            { "name": "Picpic", "power": 15, "type": "flying" },
+            { "name": "Bec-Canon", "power": 60, "type": "flying" },
+            { "name": "Aéropique", "power": 55, "type": "flying" },
+            { "name": "Atterrissage", "power": 35, "type": "normal" },
+            { "name": "Charge", "power": 20, "type": "normal" },
+            { "name": "Acrobatie", "power": 25, "type": "flying" }
+        ]
+    },
+    {
+        "name": "Terradonis",
+        "type": "ground",
+        "hp": 200,
+        "img": "assets/pokemonImagine/Terradonis.png",
+        "attacks": [
+            { "name": "Tunnel", "power": 35, "type": "ground" },
+            { "name": "Séisme", "power": 60, "type": "ground" },
+            { "name": "Piétisol", "power": 55, "type": "ground" },
+            { "name": "Mitra-Poing", "power": 35, "type": "rock" },
+            { "name": "Marto-Poing", "power": 40, "type": "rock" },
+            { "name": "Repos", "power": 0, "type": "normal" }
+        ]
+    },
+    {
+        "name": "Thorapod",
+        "type": "bug",
+        "hp": 90,
+        "img": "assets/pokemonImagine/Thorapod.png",
+        "attacks": [
+            { "name": "Dard-Mortel", "power": 35, "type": "bug" },
+            { "name": "Mégacorne", "power": 60, "type": "bug" },
+            { "name": "Piqûre", "power": 35, "type": "bug" },
+            { "name": "Séisme", "power": 45, "type": "rock" },
+            { "name": "Charge", "power": 20, "type": "normal" },
+            { "name": "Repos", "power": 0, "type": "normal" }
+        ]
+    },
+    {
+        "name": "Fantombe",
+        "type": "ghost",
+        "hp": 90,
+        "img": "assets/pokemonImagine/Fantombe.png",
+        "attacks": [
+            { "name": "Éclat Spectral", "power": 65, "type": "ghost" },
+            { "name": "Étonnement", "power": 60, "type": "ghost" },
+            { "name": "Étonnement", "power": 35, "type": "ghost" },
+            { "name": "Léchouille", "power": 45, "type": "ghost" },
+            { "name": "Malédiction", "power": 30, "type": "ghost" },
+            { "name": "Crash Obscur", "power": 55, "type": "dark" }
+        ]
     }
 ]
