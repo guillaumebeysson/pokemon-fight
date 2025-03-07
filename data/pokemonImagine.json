@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Glassa",
+        "type": "dragon",
+        "hp": 220,
+        "img": "assets/pokemonImagine/glassa.png",
+        "attacks": [
+            { "name": "Souffle Ardent", "power": 60, "type": "fire" },
+            { "name": "Griffes du Chaos", "power": 50, "type": "dark" },
+            { "name": "Lance-Éclair", "power": 55, "type": "electric" },
+            { "name": "Onde Mystique", "power": 40, "type": "psychic" },
+            { "name": "Frappe Glaciale", "power": 55, "type": "ice" },
+            { "name": "Queue de Feu", "power": 50, "type": "fire" }
+        ]
+    }
+]

@@ -66,6 +66,12 @@ function getGenerationLimits(gen) {
         8: [810, 905], // Huitième génération
         9: [906, 1025], // Huitième génération
     };
+
+    // Vérifie si la génération demandée existe
+    if (!limits[gen]) {
+        return limits["all"]; // Par défaut, prend toutes les générations
+    }
+
     return limits[gen];
 }
 
@@ -126,7 +132,6 @@ async function getPokemonData(id) {
         const data = await response.json();
 
         const attacks = await Promise.all(
-            //data.moves.slice(0, 4).map(move => getAttackDetails(move.move.url))
             data.moves.slice(0, 6).map(move => getAttackDetails(move.move.url))
         );
 
@@ -149,40 +154,110 @@ async function getPokemonData(id) {
 }
 
 // Charge les données des Pokémon
+// Charge les données des Pokémon
 async function loadGameData() {
     showLoader();
 
-    const playerPokemonId = getRandomPokemonId();
-    //const playerPokemonId = 868; // Cremy pour tester l'attaque soin
-    //const playerPokemonId = 132; // pour tester métamorph
-    const opponentPokemonId = getRandomPokemonId();
+    const selectedGeneration = new URLSearchParams(window.location.search).get("generation") || "all";
 
     try {
-        const [playerPokemon, opponentPokemon] = await Promise.all([
-            getPokemonData(playerPokemonId),
-            getPokemonData(opponentPokemonId)
-        ]);
+        if (selectedGeneration === "imagine") {
+            // Si "Pokémon Imaginés" est sélectionné, charge un Pokémon imaginé
+            const response = await fetch("data/pokemonImagine.json");
+            const imaginedPokemons = await response.json();
 
-        const [playerName, opponentName] = await Promise.all([
-            getPokemonNameInFrench(playerPokemonId),
-            getPokemonNameInFrench(opponentPokemonId)
-        ]);
+            if (!imaginedPokemons.length) {
+                alert("Aucun Pokémon imaginé disponible !");
+                return;
+            }
 
-        if (!playerPokemon || !opponentPokemon || !playerName || !opponentName) {
-            alert("Erreur lors du chargement des données Pokémon.");
-            return;
+            // Sélectionne un Pokémon imaginé aléatoire
+            const randomImaginedPokemon = imaginedPokemons[Math.floor(Math.random() * imaginedPokemons.length)];
+            const opponentPokemonId = getRandomPokemonId(); // Adversaire aléatoire de toutes les générations
+
+            const opponentPokemon = await getPokemonData(opponentPokemonId);
+            const opponentName = await getPokemonNameInFrench(opponentPokemonId);
+
+            if (!opponentPokemon || !opponentName) {
+                alert("Erreur lors du chargement de l'adversaire.");
+                return;
+            }
+
+            // Attribue les données aux Pokémon
+            pokemonData.player = {
+                ...randomImaginedPokemon,
+                maxHealth: randomImaginedPokemon.hp,
+                health: randomImaginedPokemon.hp
+            };
+
+            pokemonData.opponent = {
+                ...opponentPokemon,
+                name: opponentName
+            };
+        } else {
+            // Combat normal (Pokémon officiel en fonction de la génération choisie)
+            const playerPokemonId = getRandomPokemonId();
+            const opponentPokemonId = getRandomPokemonId();
+
+            const [playerPokemon, opponentPokemon] = await Promise.all([
+                getPokemonData(playerPokemonId),
+                getPokemonData(opponentPokemonId)
+            ]);
+
+            const [playerName, opponentName] = await Promise.all([
+                getPokemonNameInFrench(playerPokemonId),
+                getPokemonNameInFrench(opponentPokemonId)
+            ]);
+
+            if (!playerPokemon || !opponentPokemon || !playerName || !opponentName) {
+                alert("Erreur lors du chargement des Pokémon.");
+                return;
+            }
+
+            pokemonData.player = { ...playerPokemon, name: playerName };
+            pokemonData.opponent = { ...opponentPokemon, name: opponentName };
         }
-
-        pokemonData.player = { ...playerPokemon, name: playerName };
-        pokemonData.opponent = { ...opponentPokemon, name: opponentName };
 
         initializeGame();
     } catch (error) {
         console.error("Erreur lors du chargement des Pokémon :", error);
+        alert("Une erreur s'est produite, veuillez réessayer.");
     } finally {
         showMainContent();
     }
 }
+
+
+// Charge les données d'un pokemon imaginé
+async function loadImaginedPokemon() {
+    try {
+        const response = await fetch("data/pokemonImagine.json");
+        const imaginedPokemons = await response.json();
+
+        const playerPokemon = imaginedPokemons[Math.floor(Math.random() * imaginedPokemons.length)];
+        const opponentPokemonId = getRandomPokemonId(); // Adversaire classique
+
+        const opponentPokemon = await getPokemonData(opponentPokemonId);
+        const opponentName = await getPokemonNameInFrench(opponentPokemonId);
+
+        pokemonData.player = {
+            ...playerPokemon,
+            maxHealth: playerPokemon.hp,
+            health: playerPokemon.hp
+        };
+
+        pokemonData.opponent = {
+            ...opponentPokemon,
+            name: opponentName
+        };
+
+        initializeGame();
+    } catch (error) {
+        console.error("Erreur lors du chargement des Pokémon imaginés :", error);
+        alert("Impossible de charger un Pokémon imaginé.");
+    }
+}
+
 
 // Initialise le jeu avec les données des Pokémon
 function initializeGame() {
