@@ -15,7 +15,7 @@
     },
     {
         "name": "Forglass",
-        "type": "dragon",
+        "type": "ice",
         "hp": 210,
         "img": "assets/pokemonImagine/forglass.png",
         "attacks": [
