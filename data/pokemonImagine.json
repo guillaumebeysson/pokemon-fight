@@ -222,5 +222,47 @@
             { "name": "Lance-Soleil", "power": 60, "type": "grass" },
             { "name": "Séisme", "power": 50, "type": "normal" }
         ]
+    },
+    {
+        "name": "Crabodil",
+        "type": "water",
+        "hp": 110,
+        "img": "assets/pokemonImagine/crabodil.png",
+        "attacks": [
+            { "name": "Lazer vague", "power": 70, "type": "water" },
+            { "name": "Pistolet à O", "power": 30, "type": "water" },
+            { "name": "Cascade", "power": 25, "type": "water" },
+            { "name": "Eclaboussure", "power": 20, "type": "water" },
+            { "name": "Hydro-canon", "power": 60, "type": "water" },
+            { "name": "Hydro-queue", "power": 50, "type": "water" }
+        ]
+    },
+    {
+        "name": "Draféros",
+        "type": "Fairy",
+        "hp": 190,
+        "img": "assets/pokemonImagine/draferos.png",
+        "attacks": [
+            { "name": "Ultra lazer", "power": 50, "type": "fairy" },
+            { "name": "Soin", "power": 0, "type": "normal" },
+            { "name": "Draco-choc", "power": 75, "type": "dragon" },
+            { "name": "Poing-glace", "power": 30, "type": "ice" },
+            { "name": "Vent-violent", "power": 40, "type": "fly" },
+            { "name": "Vent-féérique", "power": 50, "type": "fairy" }
+        ]
+    },
+    {
+        "name": "Scorpilave",
+        "type": "ground",
+        "hp": 140,
+        "img": "assets/pokemonImagine/scorpilave.png",
+        "attacks": [
+            { "name": "Flambée royale", "power": 50, "type": "fire" },
+            { "name": "Tunnel", "power": 40, "type": "ground" },
+            { "name": "Flamèche", "power": 35, "type": "fire" },
+            { "name": "Lance-lave", "power": 30, "type": "fire" },
+            { "name": "Terre de lave", "power": 40, "type": "fire" },
+            { "name": "Poing-feu", "power": 40, "type": "fire" }
+        ]
     }
 ]
