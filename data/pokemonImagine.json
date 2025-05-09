@@ -264,5 +264,19 @@
             { "name": "Terre de lave", "power": 40, "type": "fire" },
             { "name": "Poing-feu", "power": 40, "type": "fire" }
         ]
+    },
+    {
+        "name": "Gigaègle Terra Cristallisé",
+        "type": "flying",
+        "hp": 500,
+        "img": "assets/pokemonImagine/gigaaigle.png",
+        "attacks": [
+            { "name": "Lazer cristal", "power": 60, "type": "normal" },
+            { "name": "Aqua-explosion", "power": 70, "type": "water" },
+            { "name": "Volta-explosion", "power": 70, "type": "electric" },
+            { "name": "Pyro-explosion", "power": 70, "type": "fire" },
+            { "name": "Aura-sphère", "power": 50, "type": "fighting" },
+            { "name": "Vent cristallisé", "power": 60, "type": "normal" }
+        ]
     }
 ]
