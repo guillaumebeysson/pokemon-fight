@@ -158,7 +158,9 @@ async function getPokemonData(id) {
 async function loadGameData() {
     showLoader();
 
-    const selectedGeneration = new URLSearchParams(window.location.search).get("generation") || "all";
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedGeneration = urlParams.get("generation") || "all";
+    const pokemonIndex = urlParams.get("pokemonIndex");
 
     try {
         if (selectedGeneration === "imagine") {
@@ -171,23 +173,26 @@ async function loadGameData() {
                 return;
             }
 
-            // Sélectionne un Pokémon imaginé aléatoire
-            const randomImaginedPokemon = imaginedPokemons[Math.floor(Math.random() * imaginedPokemons.length)];
+            // Soit sélectionné via l'index, soit aléatoire
+            const playerPokemon = pokemonIndex !== null
+                ? imaginedPokemons[parseInt(pokemonIndex)]
+                : imaginedPokemons[Math.floor(Math.random() * imaginedPokemons.length)];
+
             const opponentPokemonId = getRandomPokemonId(); // Adversaire aléatoire de toutes les générations
 
             const opponentPokemon = await getPokemonData(opponentPokemonId);
             const opponentName = await getPokemonNameInFrench(opponentPokemonId);
 
-            if (!opponentPokemon || !opponentName) {
-                alert("Erreur lors du chargement de l'adversaire.");
+            if (!playerPokemon || !opponentPokemon || !opponentName) {
+                alert("Erreur lors du chargement");
                 return;
             }
 
             // Attribue les données aux Pokémon
             pokemonData.player = {
-                ...randomImaginedPokemon,
-                maxHealth: randomImaginedPokemon.hp,
-                health: randomImaginedPokemon.hp
+                ...playerPokemon,
+                maxHealth: playerPokemon.hp,
+                health: playerPokemon.hp
             };
 
             pokemonData.opponent = {

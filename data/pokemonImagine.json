@@ -27,32 +27,33 @@
             { "name": "Soin", "power": 0, "type": "normal" }
         ]
     },
+    
     {
-        "name": "Torofeu",
-        "type": "fire",
-        "hp": 170,
-        "img": "assets/pokemonImagine/torofeu.png",
+        "name": "Psylis",
+        "type": "psychic",
+        "hp": 180,
+        "img": "assets/pokemonImagine/psylis.png",
         "attacks": [
-            { "name": "Déflagration", "power": 0, "type": "fire" },
-            { "name": "Flammèche", "power": 20, "type": "fire" },
-            { "name": "Surchauffe", "power": 10, "type": "fire" },
-            { "name": "Charge", "power": 40, "type": "normal" },
-            { "name": "Pied Brûleur", "power": 50, "type": "fire" },
-            { "name": "Écras’Face", "power": 20, "type": "normal" }
+            { "name": "Soin", "power": 0, "type": "normal" },
+            { "name": "Dévorêve", "power": 75, "type": "psychic" },
+            { "name": "Double Laser", "power": 30, "type": "psychic" },
+            { "name": "Frappe Psy", "power": 35, "type": "psychic" },
+            { "name": "Mur Lumière", "power": 5, "type": "psychic" },
+            { "name": "Coup Bas", "power": 50, "type": "dark" }
         ]
     },
     {
-        "name": "Combatox",
-        "type": "fighting",
-        "hp": 110,
-        "img": "assets/pokemonImagine/combatox.png",
+        "name": "Gigaègle Terra Cristallisé",
+        "type": "flying",
+        "hp": 500,
+        "img": "assets/pokemonImagine/gigaaigle.png",
         "attacks": [
-            { "name": "Coup Fulgurant", "power": 50, "type": "fighting" },
-            { "name": "Double Pied", "power": 30, "type": "fighting" },
-            { "name": "Dynamo-Poing", "power": 60, "type": "fighting" },
-            { "name": "Charge", "power": 40, "type": "normal" },
-            { "name": "Éclate-Roc", "power": 40, "type": "fighting" },
-            { "name": "Frappe Atlas", "power": 80, "type": "fighting" }
+            { "name": "Lazer cristal", "power": 60, "type": "normal" },
+            { "name": "Aqua-explosion", "power": 70, "type": "water" },
+            { "name": "Volta-explosion", "power": 70, "type": "electric" },
+            { "name": "Pyro-explosion", "power": 70, "type": "fire" },
+            { "name": "Aura-sphère", "power": 50, "type": "fighting" },
+            { "name": "Vent cristallisé", "power": 60, "type": "normal" }
         ]
     },
     {
@@ -70,17 +71,17 @@
         ]
     },
     {
-        "name": "Ziflamme",
-        "type": "fire",
-        "hp": 50,
-        "img": "assets/pokemonImagine/zyflamme.png",
+        "name": "Aeroquak",
+        "type": "flying",
+        "hp": 90,
+        "img": "assets/pokemonImagine/Aeroquak.png",
         "attacks": [
-            { "name": "Flammèche", "power": 20, "type": "fire" },
-            { "name": "Souffle Ardent", "power": 60, "type": "fire" },
-            { "name": "Surchauffe", "power": 10, "type": "fire" },
-            { "name": "Soin", "power": 0, "type": "normal" },
-            { "name": "Lance-Flammes", "power": 65, "type": "fire" },
-            { "name": "Charge", "power": 40, "type": "normal" }
+            { "name": "Picpic", "power": 15, "type": "flying" },
+            { "name": "Bec-Canon", "power": 60, "type": "flying" },
+            { "name": "Aéropique", "power": 55, "type": "flying" },
+            { "name": "Atterrissage", "power": 35, "type": "normal" },
+            { "name": "Charge", "power": 20, "type": "normal" },
+            { "name": "Acrobatie", "power": 25, "type": "flying" }
         ]
     },
     {
@@ -98,17 +99,17 @@
         ]
     },
     {
-        "name": "Psylis",
-        "type": "psychic",
-        "hp": 180,
-        "img": "assets/pokemonImagine/psylis.png",
+        "name": "Combatox",
+        "type": "fighting",
+        "hp": 110,
+        "img": "assets/pokemonImagine/combatox.png",
         "attacks": [
-            { "name": "Soin", "power": 0, "type": "normal" },
-            { "name": "Dévorêve", "power": 75, "type": "psychic" },
-            { "name": "Double Laser", "power": 30, "type": "psychic" },
-            { "name": "Frappe Psy", "power": 35, "type": "psychic" },
-            { "name": "Mur Lumière", "power": 5, "type": "psychic" },
-            { "name": "Coup Bas", "power": 50, "type": "dark" }
+            { "name": "Coup Fulgurant", "power": 50, "type": "fighting" },
+            { "name": "Double Pied", "power": 30, "type": "fighting" },
+            { "name": "Dynamo-Poing", "power": 60, "type": "fighting" },
+            { "name": "Charge", "power": 40, "type": "normal" },
+            { "name": "Éclate-Roc", "power": 40, "type": "fighting" },
+            { "name": "Frappe Atlas", "power": 80, "type": "fighting" }
         ]
     },
     {
@@ -123,6 +124,20 @@
             { "name": "Lame de Roc", "power": 35, "type": "rock" },
             { "name": "Fracass’Tête", "power": 55, "type": "rock" },
             { "name": "Requiem", "power": 30, "type": "normal" }
+        ]
+    },
+    {
+        "name": "Terradonis",
+        "type": "ground",
+        "hp": 200,
+        "img": "assets/pokemonImagine/Terradonis.png",
+        "attacks": [
+            { "name": "Tunnel", "power": 35, "type": "ground" },
+            { "name": "Séisme", "power": 60, "type": "ground" },
+            { "name": "Piétisol", "power": 55, "type": "ground" },
+            { "name": "Mitra-Poing", "power": 35, "type": "rock" },
+            { "name": "Marto-Poing", "power": 40, "type": "rock" },
+            { "name": "Repos", "power": 0, "type": "normal" }
         ]
     },
     {
@@ -154,33 +169,20 @@
         ]
     },
     {
-        "name": "Aeroquak",
-        "type": "flying",
-        "hp": 90,
-        "img": "assets/pokemonImagine/Aeroquak.png",
+        "name": "Ziflamme",
+        "type": "fire",
+        "hp": 50,
+        "img": "assets/pokemonImagine/zyflamme.png",
         "attacks": [
-            { "name": "Picpic", "power": 15, "type": "flying" },
-            { "name": "Bec-Canon", "power": 60, "type": "flying" },
-            { "name": "Aéropique", "power": 55, "type": "flying" },
-            { "name": "Atterrissage", "power": 35, "type": "normal" },
-            { "name": "Charge", "power": 20, "type": "normal" },
-            { "name": "Acrobatie", "power": 25, "type": "flying" }
+            { "name": "Flammèche", "power": 20, "type": "fire" },
+            { "name": "Souffle Ardent", "power": 60, "type": "fire" },
+            { "name": "Surchauffe", "power": 10, "type": "fire" },
+            { "name": "Soin", "power": 0, "type": "normal" },
+            { "name": "Lance-Flammes", "power": 65, "type": "fire" },
+            { "name": "Charge", "power": 40, "type": "normal" }
         ]
     },
-    {
-        "name": "Terradonis",
-        "type": "ground",
-        "hp": 200,
-        "img": "assets/pokemonImagine/Terradonis.png",
-        "attacks": [
-            { "name": "Tunnel", "power": 35, "type": "ground" },
-            { "name": "Séisme", "power": 60, "type": "ground" },
-            { "name": "Piétisol", "power": 55, "type": "ground" },
-            { "name": "Mitra-Poing", "power": 35, "type": "rock" },
-            { "name": "Marto-Poing", "power": 40, "type": "rock" },
-            { "name": "Repos", "power": 0, "type": "normal" }
-        ]
-    },
+    
     {
         "name": "Thorapod",
         "type": "bug",
@@ -266,17 +268,18 @@
         ]
     },
     {
-        "name": "Gigaègle Terra Cristallisé",
-        "type": "flying",
-        "hp": 500,
-        "img": "assets/pokemonImagine/gigaaigle.png",
+        "name": "Torofeu",
+        "type": "fire",
+        "hp": 170,
+        "img": "assets/pokemonImagine/torofeu.png",
         "attacks": [
-            { "name": "Lazer cristal", "power": 60, "type": "normal" },
-            { "name": "Aqua-explosion", "power": 70, "type": "water" },
-            { "name": "Volta-explosion", "power": 70, "type": "electric" },
-            { "name": "Pyro-explosion", "power": 70, "type": "fire" },
-            { "name": "Aura-sphère", "power": 50, "type": "fighting" },
-            { "name": "Vent cristallisé", "power": 60, "type": "normal" }
+            { "name": "Déflagration", "power": 0, "type": "fire" },
+            { "name": "Flammèche", "power": 20, "type": "fire" },
+            { "name": "Surchauffe", "power": 10, "type": "fire" },
+            { "name": "Charge", "power": 40, "type": "normal" },
+            { "name": "Pied Brûleur", "power": 50, "type": "fire" },
+            { "name": "Écras’Face", "power": 20, "type": "normal" }
         ]
     }
+    
 ]
