@@ -162,7 +162,6 @@ async function getPokemonData(id) {
         }
         const data = await response.json();
 
-        // Récupère les attaques (6 premières)
         const attacks = await Promise.all(
             data.moves.slice(0, 6).map(move => getAttackDetails(move.move.url))
         );
@@ -171,12 +170,24 @@ async function getPokemonData(id) {
         const baseDefense = data.stats.find(stat => stat.stat.name === "defense")?.base_stat || 50;
         const type = data.types[0]?.type.name || "normal";
 
-        // Utilise directement l'URL du sprite animé GIF (sans fetch)
         const nameForGif = data.name.toLowerCase();
         const gifUrl = `https://play.pokemonshowdown.com/sprites/ani/${nameForGif}.gif`;
+        const fallbackPng = data.sprites.other["official-artwork"].front_default;
+
+        // 📸 Crée une image pour tester si le gif se charge bien (sans CORS)
+        const img = new Image();
+
+        // Retourne une promesse qui attend que l'image charge ou échoue
+        const imgLoadPromise = new Promise(resolve => {
+            img.onload = () => resolve(gifUrl);      // GIF existe
+            img.onerror = () => resolve(fallbackPng); // GIF n'existe pas → fallback
+            img.src = gifUrl;
+        });
+
+        const finalImage = await imgLoadPromise;
 
         return {
-            img: gifUrl, // Image animée (GIF)
+            img: finalImage,
             attacks: attacks.filter(attack => attack),
             health: baseHP,
             maxHealth: baseHP,
@@ -188,7 +199,6 @@ async function getPokemonData(id) {
         return null;
     }
 }
-
 
 // Charge les données des Pokémon
 // Charge les données des Pokémon
