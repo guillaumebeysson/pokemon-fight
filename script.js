@@ -123,6 +123,37 @@ async function getPokemonNameInFrench(id) {
 }
 
 // Fonction pour récupérer les données d'un Pokémon via PokéAPI
+// async function getPokemonData(id) {
+//     try {
+//         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+//         if (!response.ok) {
+//             throw new Error("Erreur lors de la récupération des données Pokémon !");
+//         }
+//         const data = await response.json();
+
+//         const attacks = await Promise.all(
+//             data.moves.slice(0, 6).map(move => getAttackDetails(move.move.url))
+//         );
+
+//         const baseHP = data.stats.find(stat => stat.stat.name === "hp")?.base_stat || 100;
+//         const baseDefense = data.stats.find(stat => stat.stat.name === "defense")?.base_stat || 50;
+//         const type = data.types[0]?.type.name || "normal"; // Prend le premier type du Pokémon
+
+//         return {
+//             img: data.sprites.other["official-artwork"].front_default,
+//             attacks: attacks.filter(attack => attack),
+//             health: baseHP,
+//             maxHealth: baseHP,
+//             defense: baseDefense,
+//             type: type
+//         };
+//     } catch (error) {
+//         console.error("Impossible de récupérer les données d'un Pokémon :", error);
+//         return null;
+//     }
+// }
+
+//animation en utilisant les gifs mais pas de bonne qualité pour le moment
 async function getPokemonData(id) {
     try {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
@@ -131,16 +162,21 @@ async function getPokemonData(id) {
         }
         const data = await response.json();
 
+        // Récupère les attaques (6 premières)
         const attacks = await Promise.all(
             data.moves.slice(0, 6).map(move => getAttackDetails(move.move.url))
         );
 
         const baseHP = data.stats.find(stat => stat.stat.name === "hp")?.base_stat || 100;
         const baseDefense = data.stats.find(stat => stat.stat.name === "defense")?.base_stat || 50;
-        const type = data.types[0]?.type.name || "normal"; // Prend le premier type du Pokémon
+        const type = data.types[0]?.type.name || "normal";
+
+        // Utilise directement l'URL du sprite animé GIF (sans fetch)
+        const nameForGif = data.name.toLowerCase();
+        const gifUrl = `https://play.pokemonshowdown.com/sprites/ani/${nameForGif}.gif`;
 
         return {
-            img: data.sprites.other["official-artwork"].front_default,
+            img: gifUrl, // Image animée (GIF)
             attacks: attacks.filter(attack => attack),
             health: baseHP,
             maxHealth: baseHP,
@@ -152,6 +188,7 @@ async function getPokemonData(id) {
         return null;
     }
 }
+
 
 // Charge les données des Pokémon
 // Charge les données des Pokémon
