@@ -208,10 +208,11 @@ async function loadGameData() {
     const urlParams = new URLSearchParams(window.location.search);
     const selectedGeneration = urlParams.get("generation") || "all";
     const pokemonIndex = urlParams.get("pokemonIndex");
+    const selectedId = urlParams.get("id");
 
     try {
         if (selectedGeneration === "imagine") {
-            // Si "Pokémon Imaginés" est sélectionné, charge un Pokémon imaginé
+            // Chargement d'un Pokémon imaginé
             const response = await fetch("data/pokemonImagine.json");
             const imaginedPokemons = await response.json();
 
@@ -220,13 +221,11 @@ async function loadGameData() {
                 return;
             }
 
-            // Soit sélectionné via l'index, soit aléatoire
             const playerPokemon = pokemonIndex !== null
                 ? imaginedPokemons[parseInt(pokemonIndex)]
                 : imaginedPokemons[Math.floor(Math.random() * imaginedPokemons.length)];
 
-            const opponentPokemonId = getRandomPokemonId(); // Adversaire aléatoire de toutes les générations
-
+            const opponentPokemonId = getRandomPokemonId(); // Adversaire aléatoire
             const opponentPokemon = await getPokemonData(opponentPokemonId);
             const opponentName = await getPokemonNameInFrench(opponentPokemonId);
 
@@ -235,7 +234,6 @@ async function loadGameData() {
                 return;
             }
 
-            // Attribue les données aux Pokémon
             pokemonData.player = {
                 ...playerPokemon,
                 maxHealth: playerPokemon.hp,
@@ -247,8 +245,8 @@ async function loadGameData() {
                 name: opponentName
             };
         } else {
-            // Combat normal (Pokémon officiel en fonction de la génération choisie)
-            const playerPokemonId = getRandomPokemonId();
+            // Chargement d'un Pokémon officiel (soit sélectionné via ID, soit aléatoire)
+            const playerPokemonId = selectedId ? parseInt(selectedId) : getRandomPokemonId();
             const opponentPokemonId = getRandomPokemonId();
 
             const [playerPokemon, opponentPokemon] = await Promise.all([
@@ -278,6 +276,7 @@ async function loadGameData() {
         showMainContent();
     }
 }
+
 
 
 // Charge les données d'un pokemon imaginé

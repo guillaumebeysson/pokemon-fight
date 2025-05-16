@@ -4,24 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Choisir un Pokémon Imaginé</title>
-    <link rel="stylesheet" href="select_imagined.css">
-    <style>
-
-    </style>
+    <title>Choisir un Pokémon</title>
+    <link rel="stylesheet" href="select_generation.css">
 </head>
 
 <body>
     <div class="container">
         <a href="index.html"><img id="arrow-back" src="assets/arrow.png" alt="back"></a>
-        <h1>Pokémon imaginés</h1>
+        <h1 id="generation-title">Chargement...</h1>
         <div class="actions">
             <button onclick="chooseRandom()">Choisir aléatoirement</button>
         </div>
-        <div id="imagined-list" class="imagined-container"></div>
+        <div id="pokemon-list" class="pokemon-container"></div>
     </div>
-
-    <script src="select_imagined.js"></script>
+    <script src="select_generation.js"></script>
 </body>
 
 </html>
