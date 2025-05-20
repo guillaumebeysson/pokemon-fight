@@ -221,14 +221,21 @@ async function restartGame() {
 
         const imageUrl = dataPokemon.sprites.other["official-artwork"].front_default;
 
-        // Montre le modal d’apparition avec fond animé
+        // 🎯 MODAL LOGIC
+        const modalWrapper = document.querySelector(".modal-wrapper");
         const modal = document.getElementById("appear-modal");
         const appearText = document.getElementById("appear-text");
         const appearImg = document.getElementById("appear-pokemon-img");
 
+        // Reset
+        modalWrapper.classList.remove("hidden");
+        modal.classList.remove("disappear");
+        appearImg.classList.remove("fall-appear");
+        appearImg.src = "";
+
+        // Show modal
         appearText.innerText = `Un ${frenchName} sauvage apparaît !`;
         modal.classList.remove("hidden");
-
 
         setTimeout(() => {
             appearImg.classList.add("fall-appear");
@@ -242,10 +249,10 @@ async function restartGame() {
         }, 3000);
 
         setTimeout(() => {
-            document.querySelector(".modal-wrapper").classList.add("hidden");
+            modalWrapper.classList.add("hidden"); // 🧼 Cache totalement le modal après transition
         }, 4000);
 
-
+        // Chargement réel du Pokémon pour le jeu
         const imgElement = document.getElementById("pokemon-img");
         imgElement.onload = () => {
             document.querySelector(".container").style.display = "block";
@@ -256,12 +263,14 @@ async function restartGame() {
         document.getElementById("pokemon-name").innerText = frenchName;
         updateCaptureBar();
         showMessage(`Un ${frenchName} sauvage apparaît !`);
+
     } catch (error) {
         console.error("Erreur lors du chargement du Pokémon :", error);
         showMessage("Erreur lors du chargement d’un nouveau Pokémon.");
         document.getElementById("loader").style.display = "none";
     }
 }
+
 
 function triggerAnimation(buttonId, className) {
     const btn = document.getElementById(buttonId);
