@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link rel="stylesheet" href="style_capture.css">
+    <link rel="stylesheet" href="style_modal.css">
+    <title>Capture</title>
+</head>
+
+<body>
+    <a href="index.html"><img id="arrow-back" src="assets/arrow.png" alt="back"></a>
+
+    <div class="fullscreen">
+        <div id="loader" class="loader"></div>
+        <div class="container" style="display: none;">
+
+            <div class="pokemon-area">
+                <h2 id="pokemon-name"></h2>
+                <div class="pokeball" id="pokeball" style="display: none;"></div>
+                <img id="pokemon-img" alt="Pokemon">
+                <div class="capture-bar-container">
+                    <div id="capture-bar" class="capture-bar"></div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="btn-sleep" onclick="applyStatus('sleep')">💤 Endormir</button>
+                <button id="btn-paralyze" onclick="applyStatus('paralyze')">⚡ Paralyser</button>
+                <button id="btn-attack" onclick="applyStatus('attack')">🗡️ Attaquer</button>
+
+                <button onclick="tryCapture()" id="btn-catch"><img src="assets/favicon.png" alt="pokeball">
+                    Attraper</button>
+            </div>
+
+            <div class="restart">
+                <button id="restart-btn" style="display: none;" onclick="restartGame()">Capturer un autre
+                    pokemon</button>
+            </div>
+
+            <div id="message" class="message"></div>
+        </div>
+    </div>
+
+    <div class="modal-wrapper">
+        <div id="appear-modal" class="appear-modal hidden">
+            <div class="appear-content">
+                <p id="appear-text"></p>
+                <div style="width: 200px; height: 200px;">
+                    <img id="appear-pokemon-img" src="" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="script_capture.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,151 @@
+.appear-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 100vh;
+    background-image: url(./assets/bg_modal.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: 20px 30px;
+    margin-top: -1px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: white;
+    z-index: 999;
+    animation: appearPop 0.5s ease-out forwards;
+    overflow: hidden;
+}
+
+@keyframes appearPop {
+    0% {
+        transform: translate(-50%, -50%) scale(0.6);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* @keyframes disappearPop {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(0);
+    }
+} */
+
+@keyframes disappearPop {
+    0% {
+        transform: translateX(0px);
+    }
+
+    100% {
+        transform: translateX(100vw);
+    }
+}
+
+
+.appear-content {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    animation: popIn 0.8s ease-out;
+}
+
+#appear-pokemon-img {
+    width: 200px;
+}
+
+#appear-text {
+    margin-top: 1rem;
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-shadow: 0 0 10px black;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.appear-modal.hidden {
+    display: none;
+}
+
+.modal-wrapper.hidden {
+    display: none;
+}
+
+.appear-modal.disappear {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    animation: disappearPop 0.5s ease-out forwards;
+}
+
+.pokemon-img-appear {
+    animation: zoomFadeIn 1s ease-out;
+}
+
+@keyframes zoomFadeIn {
+    0% {
+
+        opacity: 0;
+    }
+
+    100% {
+
+        opacity: 1;
+    }
+}
+
+@keyframes fallFromTop {
+    0% {
+        transform: translateY(-300px);
+        opacity: 0;
+    }
+
+    60% {
+        transform: translateY(20px);
+        opacity: 1;
+    }
+
+    80% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.fall-appear {
+    animation: fallFromTop 0.8s ease-out;
+}
+
+.modal-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 999;
+}
