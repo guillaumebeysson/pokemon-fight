@@ -17,6 +17,7 @@ function updateCaptureBar() {
         isKO = true;
         showMessage("Le Pokémon est K.O. ! Vous ne pouvez pas l'attraper.");
         disableActions();
+        document.getElementById("pokemon-img").style.opacity = "0.5";
         document.getElementById("restart-btn").style.display = "inline-block";
     }
 }
@@ -84,110 +85,81 @@ function tryCapture() {
     }
 
     const pokemonImg = document.getElementById("pokemon-img");
-    const pokeball = document.getElementById("pokeball");
+    const pokemonArea = document.querySelector(".pokemon-area");
 
-    // 🧨 Masque le Pokémon (visuellement) et montre la Pokéball
-    pokemonImg.style.transition = "transform 0.5s";
+    // 1. Cache le Pokémon
+    pokemonImg.style.transition = "transform 0.5s, opacity 0.5s";
     pokemonImg.style.transform = "scale(0)";
-    setTimeout(() => {
-        pokemonImg.style.display = "none";
-    }, 500); // attend que le scale(0) soit fini
-
-    pokeball.style.display = "block";
-    pokeball.classList.remove("escape");
-
-    const chance = Math.random() * 100;
-    const successChance = 100 - captureValue;
-
-    if (chance < successChance) {
-        // ✅ Succès après 6s d’animation
-        setTimeout(() => {
-            showMessage("🎉 Tu as capturé le Pokémon !");
-            launchConfetti();
-            disableButtons();
-            document.getElementById("restart-btn").style.display = "block";
-        }, 6000);
-    } else {
-        // ❌ Échec après 5s → animation "rebond"
-        setTimeout(() => {
-            showMessage("💨 Le Pokémon s'est échappé !");
-            captureValue = Math.min(captureValue + 10, 100);
-            updateCaptureBar();
-
-            pokeball.classList.add("escape");
-
-            // 1s plus tard → cacher Pokéball + réafficher Pokémon avec animation
-            setTimeout(() => {
-                pokeball.style.display = "none";
-
-                // Réinitialise état du Pokémon pour animation d'apparition
-                pokemonImg.style.opacity = "0";
-                pokemonImg.style.display = "inline-block";
-                pokemonImg.style.transform = "scale(0)";
-
-                // Force l’affichage pour lancer l’animation proprement
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        pokemonImg.style.transition = "transform 0.6s ease, opacity 0.6s ease";
-                        pokemonImg.style.opacity = "1";
-                        pokemonImg.style.transform = "scale(1)";
-                    });
-                });
-            }, 1000);
-        }, 5000);
-    }
-}
-function tryCapture() {
-    if (isKO) {
-        showMessage("Le Pokémon est K.O. ! Vous ne pouvez pas lancer de Pokéball.");
-        return;
-    }
-
-    const pokemonImg = document.getElementById("pokemon-img");
-    const pokeball = document.getElementById("pokeball");
-
-    pokemonImg.style.transition = "transform 0.5s";
-    pokemonImg.style.transform = "scale(0)";
+    pokemonImg.style.opacity = "0";
     pokemonImg.style.display = "none";
 
-    pokeball.style.display = "block";
-    pokeball.classList.remove("escape");
+    // 2. Supprime l'ancienne Pokéball
+    const oldBall = document.getElementById("pokeball");
+    if (oldBall) oldBall.remove();
 
+    // 3. Pokéball aléatoire
+    const balls = ["pokeball", "superball", "hyperball", "masterball"];
+    const ballBonuses = {
+        pokeball: 0,
+        superball: 5,
+        hyperball: 10,
+        masterball: 20
+    };
+
+    const randomClass = balls[Math.floor(Math.random() * balls.length)];
+    const ballBonus = ballBonuses[randomClass];
+
+    const newBall = document.createElement("div");
+    newBall.className = randomClass;
+    newBall.id = "pokeball";
+    pokemonArea.insertBefore(newBall, pokemonImg);
+
+    // 4. Nouveau calcul du taux de capture 
+    const baseChance = (100 - captureValue) / 4;
+    const totalChance = Math.min(baseChance + ballBonus, 100);
     const chance = Math.random() * 100;
-    const successChance = 100 - captureValue;
 
-    if (chance < successChance) {
+    // 🔍 Affiche dans la console
+    console.log(`🎯 Capture avec une ${randomClass.toUpperCase()} :`);
+    console.log(`- Base chance : ${baseChance.toFixed(2)}%`);
+    console.log(`- Bonus : +${ballBonus}%`);
+    console.log(`- Total chance : ${totalChance}%`);
+
+    if (chance < totalChance) {
         setTimeout(() => {
-            showMessage("🎉 Tu as capturé le Pokémon !");
+            showMessage(`🎉 Tu as capturé le Pokémon avec une ${randomClass.toUpperCase()} !`);
             launchConfetti();
             disableButtons();
             document.getElementById("restart-btn").style.display = "block";
         }, 6000);
     } else {
         setTimeout(() => {
-            showMessage("💨 Le Pokémon s'est échappé !");
-            captureValue = Math.min(captureValue + 10, 100);
+            showMessage(`💨 Le Pokémon s'est échappé de la ${randomClass.toUpperCase()} !`);
+            captureValue = Math.min(captureValue + 70, 100);
             updateCaptureBar();
 
-            pokeball.classList.add("escape");
+            newBall.classList.add("escape");
 
             setTimeout(() => {
-                pokeball.style.display = "none";
-                pokemonImg.style.opacity = "0";
+                newBall.style.display = "none";
                 pokemonImg.style.display = "inline-block";
+                pokemonImg.style.transition = "transform 0.6s ease, opacity 0.6s ease";
                 pokemonImg.style.transform = "scale(0)";
+                pokemonImg.style.opacity = "0";
 
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
-                        pokemonImg.style.transition = "transform 0.6s ease, opacity 0.6s ease";
-                        pokemonImg.style.opacity = "1";
                         pokemonImg.style.transform = "scale(1)";
+                        pokemonImg.style.opacity = "1";
                     });
                 });
             }, 500);
         }, 5000);
     }
 }
+
+
+
 
 function disableButtons() {
     const buttons = document.querySelectorAll(".actions button");
@@ -205,6 +177,7 @@ async function restartGame() {
     document.querySelector(".container").style.display = "none";
     document.getElementById("loader").style.display = "block";
     document.getElementById("pokemon-img").style.display = "inline-block";
+    document.getElementById("pokemon-img").style.opacity = "1";
     document.getElementById("pokemon-img").style.transform = "scale(1)";
     document.getElementById("pokeball").style.display = "none";
 
@@ -249,10 +222,9 @@ async function restartGame() {
         }, 3000);
 
         setTimeout(() => {
-            modalWrapper.classList.add("hidden"); // 🧼 Cache totalement le modal après transition
+            modalWrapper.classList.add("hidden");
         }, 4000);
 
-        // Chargement réel du Pokémon pour le jeu
         const imgElement = document.getElementById("pokemon-img");
         imgElement.onload = () => {
             document.querySelector(".container").style.display = "block";
